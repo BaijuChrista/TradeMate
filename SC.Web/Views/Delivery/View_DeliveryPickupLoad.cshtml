@@ -1,0 +1,336 @@
+﻿@{
+    ViewData["Title"] = "Delivery Pick Up";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+<div class="modal fade" id="modal-resend">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delivery Details</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <label>Assign User</label>
+                            <select class="form-control select2" name="Userassigned" id="Userassigned">
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label>From</label>
+                            <input type="text" class="form-control" name="toaddress" id="toaddress" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>To</label>
+                            <input type="text" class="form-control" name="fromaddress" id="fromaddress" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Collect Payment</label><br />
+                            <input type="checkbox" checked="checked" name="pay" id="pay" />
+                        </div>
+                        <div class="col-md-2">
+                            <br />
+                            <button type="button" class="btn btn-primary" style="margin-right: 5px !important; padding: 3px 10px;" id="btnDeliveryUpdate">Create</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-3">
+                    From Date <br /><input type="text" class="form-control datepicker"  id="serfromdate" />
+                </div>
+                <div class="col-md-3">
+                    To Date<br /> <input type="text" class="form-control datepicker"  id="sertodate" />
+                </div>
+                <div class="col-md-3">
+                    Reference No <br /><input type="text" class="form-control"  id="serRefNo" />
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="appDelivery">AppDelivery</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnProcess">PickedUp</button>
+                </div>
+
+            </div>
+            <div class="x_content">
+                <table id="list-salesorderpickup" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-salesorderpickup').jqGrid({
+            url: '/Delivery/GetSalesOrderPickUp',
+            datatype: 'json',
+            colNames: ['Id', 'Order Ref No', 'Order Date','Invoice No','Invoice Date', 'Customer', 'Details', 'Status'],
+            colModel: [
+                { name: 'id', index: 'id', width: 200, hidden: true },
+                { name: 'salesOrder.refno', index: 'salesOrder.refno', width: 200, sorttype: "date" },
+                { name: 'salesOrder.orderdate', index: 'salesOrder.orderdate', width: 120, formatter: 'date', formatoptions: { srcformat: 'Y/m/d', newformat: 'd-M-Y' } },
+                { name: 'invoiceno', index: 'invoiceno', width: 200, sorttype: "date" },
+                { name: 'salesdate', index: 'salesdate', width: 120, formatter: 'date', formatoptions: { srcformat: 'Y/m/d', newformat: 'd-M-Y' } },
+                { name: 'customer.customerName', index: 'customer.customerName', width: 200 },
+                { name: 'details', index: 'details', width: 250 },
+                { name: 'status', formatter: addstatus, width: 100 }
+            ],
+            jsonReader: {
+                root: "rows",
+                page: "page",
+                total: "totalPages",
+                records: "records",
+                repeatitems: false,
+                id: "0"
+            },
+            rowNum: 250,
+            rowList: [250, 500, 1000],
+            pager: '#pager',
+            subGrid: true,
+            sortname: 'code',
+            sortorder: 'asc',
+            loadonce: true,
+            autowidth: true,
+            shrinkToFit: true,
+            multiselect: true,
+            viewrecords: true,
+            subGridRowExpanded: function (subgrid_id, row_id) {
+                debugger;
+                var subgrid_table_id, pager_id;
+                subgrid_table_id = subgrid_id + "_t";
+                pager_id = "p_" + subgrid_table_id;
+                $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                jQuery("#" + subgrid_table_id).jqGrid({
+                    url: "/Delivery/GetSalesPickUpDetails?q=2&SalesId=" + row_id,
+                    datatype: 'json',
+                    colNames: ['Id', 'Sales Id', 'Item Name', 'Qty'],
+                    colModel: [
+                        { name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true },
+                        { name: 'salesId', index: 'salesId', editable: false, width: 100, hidden: true },
+                        { name: "itemMaster.itemName", index: "itemMaster.itemName", width: 100 },
+                        {
+                            name: "qty", index: "qty", width: 100, formatter: 'number',
+                            summaryTpl: "Total : {0}  ",
+                            summaryType: "sum"
+                        }                   
+                    ],
+                    jsonReader: {
+                        root: "rows",
+                        page: "page",
+                        total: "totalPages",
+                        records: "records",
+                        repeatitems: false,
+                        id: "0"
+                    },
+                    //  pager: pager_id,
+                    rowNum: 10,
+                    rowList: [1, 2, 3],
+                    sortname: 'qty',
+                    sortorder: "asc",
+                    height: '100%',
+                    autowidth: true,
+                    autoencode: true,
+                    shrinkToFit: true,
+                    gridview: true,
+                    grouping: true,
+                    groupingView: {
+                        groupField: ["salesId"],
+                        groupColumnShow: [false],
+                        groupText: ["<b></b>"],
+                        groupOrder: ["asc"],
+                        groupSummary: [true],
+                        groupCollapse: false
+
+                    },
+                    idPrefix: subgrid_table_id + "_"
+                });
+                jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, { edit: false, add: false, del: false })
+            },
+            subGridRowColapsed: function (subgrid_id, row_id) {
+                // this function is called before removing the data
+                //var subgrid_table_id;
+                //subgrid_table_id = subgrid_id+"_t";
+                //jQuery("#"+subgrid_table_id).remove();
+            },
+            rowNum: 250,
+            rowList: [250, 500, 1000],
+            pager: '#pager',
+            sortname: 'code',
+            sortorder: 'asc',
+            multiselect: true,
+            viewrecords: true,
+            height: '100%',
+            width: '100%',
+            sortorder: 'asc',
+            loadonce: false,
+            autowidth: true,
+            shrinkToFit: true,
+            scrollOffset: 0,
+            emptyrecords: 'No records',
+            grouping: true,
+            caption: 'List of Sales Orders to be Picked Up'
+        }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: false },
+        );
+        jQuery('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        })
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.status == null)
+            return '';
+        switch (rowObject.status) {          
+            case 2: return 'Ready For Pick Up';
+            case 3: return 'Order Picked Up';
+            case 4: return 'Delivered';
+            case 5: return 'Cancelled';
+        }
+    }
+       jQuery("#btnSearch").click(function () {
+		var serfromdate = $("#serfromdate").val();
+		var sertodate = $("#sertodate").val();
+        var serRefNo = $("#serRefNo").val();
+           jQuery("#list-salesorderpickup").jqGrid('setGridParam',
+			{
+                url: "/Delivery/SearchSalesOrdersPickUp?serfromdate=" + serfromdate + '&sertodate=' + sertodate + '&serRefNo=' + serRefNo
+				, page: 1
+			})
+			.trigger("reloadGrid");
+       });
+    jQuery("#btnProcess").click(function () {
+        debugger;
+        var grid = $("#list-salesorderpickup");
+        var data = [];
+        var rowKey = grid.getGridParam("selarrrow");
+        if (!rowKey)
+            alert("No rows are selected");
+        else {
+            var selectedIDs = grid.getGridParam("selarrrow");
+            for (var i = 0; i < selectedIDs.length; i++) {
+                data.push(selectedIDs[i])
+            }
+            $.ajax({
+                url: "/Delivery/UpdatePickedUp",
+                type: 'POST',
+                data: { Ids: data },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        }
+        //alert(rows);
+    });  
+
+    jQuery("#appDelivery").click(function () {
+        var grid = $("#list-salesorderpickup");
+        var rowKey = grid.getGridParam("selarrrow");
+        if (!rowKey)
+            alert("No rows are selected");
+        else {
+            var selectedIDs = grid.getGridParam("selarrrow");
+            $.ajax({
+                url: '/Delivery/GetDeliveryAddress',
+                type: 'GET',
+                dataType: 'json',
+                data: { Id: selectedIDs[0] },
+                success: function (result) {
+                    debugger;
+                    $('#toaddress').val(result.to);
+                    $('#fromaddress').val(result.from);
+                    $('#modal-resend').modal('toggle');
+                },
+                error: function () {
+                    console.log('err')
+                }
+            });
+        }
+
+    });
+
+    jQuery("#btnDeliveryUpdate").click(function () {
+        var userId = $('#Userassigned').val();
+        var to = $('#toaddress').val();
+        var from = $('#fromaddress').val();
+        var pay = $('#pay').val();
+        var pay = false;
+        debugger;
+        var grid = $("#list-salesorderpickup");
+        var data = [];
+        var rowKey = grid.getGridParam("selarrrow");
+        if (!rowKey)
+            alert("No rows are selected");
+        else {
+            var selectedIDs = grid.getGridParam("selarrrow");
+            for (var i = 0; i < selectedIDs.length; i++) {
+                data.push(selectedIDs[i])
+            }
+            $.ajax({
+                url: "/Delivery/CreateDelivery",
+                type: 'POST',
+                data: { Ids: data, from, to, userId, pay },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        }
+        //alert(rows);
+    });
+    $.ajax({
+        url: '/Login/GetApplicationUser?type=3',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#Userassigned').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].username + '</option>';
+            }
+            $('#Userassigned').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+</script>

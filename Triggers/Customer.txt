@@ -1,0 +1,27 @@
+USE [TradeMate]
+GO
+/****** Object:  Trigger [dbo].[TradeMate_UpdateCustomerCode]    Script Date: 11/4/2019 5:21:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER TRIGGER [dbo].[TradeMate_UpdateCustomerCode] 
+   ON  [TradeMate].[dbo].[Customer]
+   AFTER INSERT
+AS 
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+update [TradeMate].[dbo].[Customer] set code= cc.code+''+ RIGHT('0000'+CAST(cu.Id AS VARCHAR(4)),4)
+from inserted cu 
+join [TradeMate].[dbo].[Customer] cm on cm.id=cu.Id
+join customercategory cc on cc.Id=cu.customercategoryId
+    -- Insert statements for trigger here
+
+END

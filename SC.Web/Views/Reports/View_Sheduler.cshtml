@@ -1,0 +1,243 @@
+﻿@{
+    ViewData["Title"] = "No Stock Items";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+<style>
+    .small-box {
+        color: black !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>This Month Orders</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>This month Profit</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>Last Month Orders</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>Last month Profit</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>150</h3>
+                <p>New Orders</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-Save">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Comment</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label>Details</label>
+                    <input id="txtupdatecomment" class="form-control remarks" required autocomplete="off" />
+                    <input type="hidden" id="hdnupdateId" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="btnSaveComment" class="btn btn-primary btn-flat">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $.ajax({
+
+        url: '/Report/GetCustomerSheduler',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            $('.row').empty();
+            var divstring = '';
+            for (var i = 0; i < data.task.length; i++) {
+                debugger;
+                var moddate = new Date(data.task[i].modifiedDate)
+                moddate.setDate(moddate.getDate() + 7);
+                var col = 'bg-light-blue-active';
+                if (new Date() > moddate)
+                    col = 'bg-red-active';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box ' + col + ' "><div class="inner"><p>Name: ' + data.task[i].name + '</p><h4>Details:' + data.task[i].details + '</h4><a href="#" id="btnSave" class="btn btn-success btn-flat"><i class="fa fas fa-edit" data-DetailsID="' + data.task[i].id + '"></i></a></div>' +
+                    '<a href="#" onclick="UpdateTask(' + data.task[i].id + ');return false;" class="small-box-footer">Done <i class="fa fas fa-arrow-circle-right"></i></a></div></div>';
+            }
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-light-blue-active"><div class="inner"><p>Name: <input type="text" id="txttaskname"/></p><h4>Details: <input type="text" id="txttaskdetails"/></h4></div><div class="icon"><i class="ion ion-bag" ></i></div>' +
+                '<a href="#" onclick="CreateTask();return false;" class="small-box-footer">Save <i class="fa fas fa-arrow-circle-right"></i></a></div></div>';
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>This month Orders</p><h3>' + data.count + '</h3></div></div></div>';
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>This month Sale</p><h3>' + data.total + '</h3></div></div></div>';
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Last month orders</p><h3>' + data.previusCount + '</h3></div></div></div>';
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Last month Sales</p><h3>' + data.previusTotal + '</h3></div></div></div>';
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><P>Recipt:' + data.recivables + '</p><p>Sale:' + data.sales + '</p><h3>Total:' + (data.recivables + data.sales) + '</h3></div></div></div>';
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><P>Payment:' + data.payables + '</p><p>Purchase:' + data.purchase + '</p><h3>Total:' + (data.purchase + data.payables) + '</h3></div></div></div>';
+            ////divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Payment</p><h3>' + + ((data.recivables + data.sales) - (data.payables + data.suplpay)) + '</h3></div></div></div>';
+            for (var i = 0; i < data.shedule.length; i++) {
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-success"><div class="inner"><p>User: ' + data.shedule[i].name + '</p><h4>' + data.shedule[i].customerName + '</h4><h4>Number:<a href="tel:' + data.shedule[i].number + '">' + data.shedule[i].number + '</a></h4><h4>Balance:' + data.shedule[i].balance + '</h4></div><div class="icon"><i class="ion ion-bag" ></i></div>' +
+                    '<a href="#" onclick="Updatevisited(' + data.shedule[i].id + ');return false;" class="small-box-footer">Done <i class="fa fas fa-arrow-circle-right"></i></a></div></div>';
+            }
+            $('.row').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $(document).on("click", ".fa-edit", function () {
+        var id = $(this).data('detailsid');
+
+        $('#hdnupdateId').val(id);
+        $('#txtupdatecomment').val("");
+        $('#modal-Save').modal('toggle');
+    })
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        url: '/Report/GetAlertList',
+        success: function (response) {
+            for (var i = 0; i < response.alert.length; i++) {
+                toastr.error('Customer Name:' + response.alert[i].customerName + '<br />Amount:' + response.alert[i].total + '<br />Due Days:' + response.alert[i].due);
+
+                //$(document).Toasts('create', {
+                //    class: 'bg-danger',
+                //    title: response.alert[i].customerName,
+                //    subtitle: 'Due',
+                //    body: 'You have a Due for this customer'
+                //});
+                //$('.' + response[i]).show();
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //window.open('/NotFound/NotFound');
+
+        }
+    });
+    function Updatevisited(id) {
+        $.ajax({
+
+            url: '/Report/UpdateVisited?Id=' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                window.location = '/Report/Sheduler';
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    }
+    function UpdateTask(id) {
+        $.ajax({
+
+            url: '/Report/UpdateTask?Id=' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                window.location = '/Report/Sheduler';
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    }
+    $(document).on("click", "#btnSaveComment", function () {
+
+        taskdetails = $('#txtupdatecomment').val();
+        id = $('#hdnupdateId').val();
+        $.ajax({
+
+            url: '/Report/UpdateTaskcommant',
+            type: 'GET',
+            dataType: 'json',
+            data: { id: id, comment: taskdetails },
+            success: function (data) {
+                window.location = '/Report/Sheduler';
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    })
+
+    function CreateTask() {
+        taskdetails = $('#txttaskdetails').val();
+        taskname = $('#txttaskname').val();
+
+        $.ajax({
+
+            url: '/Report/CreateTask',
+            type: 'GET',
+            dataType: 'json',
+            data: { name: taskname, comment: taskdetails },
+            success: function (data) {
+                window.location = '/Report/Sheduler';
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    }
+</script>

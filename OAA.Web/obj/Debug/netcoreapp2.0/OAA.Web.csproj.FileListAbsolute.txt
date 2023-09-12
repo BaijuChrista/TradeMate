@@ -1,0 +1,70 @@
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.deps.json
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.json
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.dev.json
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.dll
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.pdb
+E:\VS2017\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csprojResolveAssemblyReference.cache
+E:\VS2017\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csproj.CoreCompileInputs.cache
+E:\VS2017\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfoInputs.cache
+E:\VS2017\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfo.cs
+E:\VS2017\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.dll
+E:\VS2017\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.pdb
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.dll
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.dll
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.pdb
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.dll
+E:\VS2017\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.pdb
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.deps.json
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.json
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.dev.json
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.pdb
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.pdb
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.pdb
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csprojResolveAssemblyReference.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csproj.CoreCompileInputs.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfoInputs.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfo.cs
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.deps.json
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.json
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.dev.json
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csprojAssemblyReference.cache
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csproj.CoreCompileInputs.cache
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfoInputs.cache
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfo.cs
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csproj.CopyComplete
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.deps.json
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.json
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.runtimeconfig.dev.json
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Web.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Repo.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\bin\Debug\netcoreapp2.0\OAA.Service.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csprojAssemblyReference.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csproj.CoreCompileInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfoInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.AssemblyInfo.cs
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.csproj.CopyComplete
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Web\obj\Debug\netcoreapp2.0\OAA.Web.pdb

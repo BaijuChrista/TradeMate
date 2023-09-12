@@ -1,0 +1,127 @@
+﻿@{
+	ViewData["Title"] = "User List";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+	<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+	<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<div class="col-md-9">
+					User Name <br /><input type="text" class="form-control"  id="serName" />
+				</div>								
+				<div class="col-md-3">
+					<br />
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+				</div>
+			</div>
+			<div class="box-body">
+				<table id="list-users" style="color:black !important" class="table table-dark"></table>
+				<div id="pager"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('#list-users').jqGrid({
+        url: '/Company/GetUser',
+		datatype: 'json',
+        colNames: ['Id', 'Username', 'First Name','Last Name','Email','Phone'],
+		colModel: [
+			{
+				name: 'id', index: 'Id', editable: false, width: 100, key: true,hidden: true },
+            { name: 'username', index: 'username', editable: true, width: 240, editrules: { required: true } },			
+            { name: 'firstName', index: 'firstName', editable: false, width: 240 },
+            { name: 'lastName', index: 'lastName', editable: false, width: 240 },
+            { name: 'email', index: 'email', editable: false, width: 240 },
+            { name: 'phoneNumber', index: 'phoneNumber', editable: false, width: 240 }            
+		],
+		jsonReader: {
+			root: "rows",
+			page: "page",
+			total: "total",
+			records: "records",
+			repeatitems: false,
+			id: "0"  },
+		 rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        rownumbers: true,
+        scroll: 1,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+		caption: 'List of User'
+	}).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true  },
+		{
+			zIndex: 100,
+			url: '/Admin/EditWarranty',
+			closeOnEscape: true,
+			closeAfterEdit: true,
+			recreateForm: true,
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		},
+		{
+
+			url: "/Admin/CreateWarranty",
+			closeOnEscape: true,
+			closeAfterAdd: true,
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		},
+		{
+			zIndex: 100,
+			url: "//",
+			closeOnEscape: true,
+			closeAfterDelete: true,
+			recreateForm: true,
+			msg: "Are you sure you want to delete Student... ? ",
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		});
+	jQuery("#btnSearch").click(function () {
+        var serName = $("#serName").val();        
+        jQuery("#list-Warranty").jqGrid('setGridParam',
+            { url: "/Admin/SearchWarranty?serName=" + serName, page: 1 })
+            .trigger("reloadGrid");
+
+
+    });
+</script>

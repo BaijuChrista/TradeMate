@@ -1,0 +1,136 @@
+﻿@{
+	ViewData["Title"] = "Financial Year Master";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+	<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+	<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<div class="col-md-9">
+					Year Name <br /><input type="text" class="form-control"  id="serName" />
+				</div>
+				<div class="col-md-3">
+					<br />
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" onclick="location.href='@Url.Action("NewFinanceYear", "Company")'">New</button>
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+				</div>
+			</div>
+			<div class="box-body">
+				<table id="list-finyear" style="color:black !important" class="table table-dark"></table>
+				<div id="pager"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+				$('#list-finyear').jqGrid({
+					url: '/Company/GetFinanceYear',
+					datatype: 'json',
+					colNames: ['Id', 'Year Name', 'From Date', 'To Date', 'Current Period', 'Status'],
+					colModel: [
+						{
+							name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true
+						},
+						{ name: 'yearName', index: 'yearName', editable: true, width: 240, editrules: { required: true } },
+						{ name: 'fromDate', index: 'fromDate', editable: true, width: 240, formatter: 'date', formatoptions: { newformat: 'd-M-Y' }, editrules: { required: true } },						
+						{ name: 'toDate', index: 'toDate', editable: true, width: 240, formatter: 'date', formatoptions: { newformat: 'd-M-Y' }, editrules: { required: true } },
+						{ name: 'iscurrent', index: 'iscurrent', editable: true, width: 240, edittype: 'select', editoptions: { value: "false:No;true:Yes" }, editrules: { required: true } },
+						{ name: 'status', index: 'Status', editable: false, width: 240, hidden: true }
+
+					],
+					jsonReader: {
+						root: "rows",
+						page: "page",
+						total: "total",
+						records: "records",
+						repeatitems: false,
+						id: "0"
+					},
+				rowNum: 10,
+		rowList: [1, 2, 3],
+		//pager: '#pager',
+		sortname: 'code',
+		sortorder: 'asc',
+		//footerrow: true,
+		viewrecords: true,
+		height: 'auto',
+		width: 'auto',
+		sortorder: 'asc',
+		loadonce: false,
+		autowidth: true,
+		shrinkToFit: false,
+		emptyrecords: 'No records',
+		grouping: true,
+		caption: 'List of Financial Year'
+                }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true },
+	jQuery("#btnSearch").click(function () {
+        var serName = $("#serName").val();       
+        jQuery("#list-finyear").jqGrid('setGridParam',
+            { url: "/Company/SearchFinancialYear?serName=" + serName, page: 1 })
+            .trigger("reloadGrid");
+    });
+    $("#btnExport").on("click", function () {
+        createExcelFromGrid("list-finyear", "Fin-Year")
+    })
+    var createExcelFromGrid = function (gridID, filename) {
+        var grid = $('#' + gridID);
+        var rowIDList = grid.getDataIDs();
+        var row = grid.getRowData(rowIDList[0]);
+        var colNames = [];
+        var i = 0;
+        var html = '<table border="1px"><tr>';
+        for (var cName in row) {
+            if (cName == "id" || cName == "modify") {
+            }
+            else {
+                colNames[i++] = cName;
+                switch (cName) {
+                    case "name": html += '<th>Name</th>';
+                        break;
+                    case "smallunit": html += '<th>Unit</th>';
+                        break;
+                    case "roe": html += '<th>ROE</th>';
+                        break;
+                }
+            }// Capture Column Names
+        }
+        html += '</tr>';
+        for (var j = 0; j < rowIDList.length; j++) {
+            row = grid.getRowData(rowIDList[j]); // Get Each Row
+            html += '<tr>';
+            for (var i = 0; i < colNames.length; i++) {
+                html += '<td bgcolor="#D0D3D4 ">' + row[colNames[i]] + '</td>'; // Create a CSV delimited with ;
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        var a = document.createElement('a');
+        a.id = 'ExcelDL';
+        a.href = 'data:application/vnd.ms-excel,' + escape(html);
+        a.download = filename ? filename + ".xls" : 'DataList.xls';
+        document.body.appendChild(a);
+        a.click(); // Downloads the excel document
+        document.getElementById('ExcelDL').remove();
+    }
+</script>

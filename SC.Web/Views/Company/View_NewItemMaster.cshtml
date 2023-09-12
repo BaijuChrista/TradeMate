@@ -1,0 +1,194 @@
+﻿
+@model SC.Data.ItemMaster
+@{
+    ViewData["Title"] = "New Item Master Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<style>
+    div button {
+        float: right;
+    }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+@*<link href="~/Table/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />*@
+@*<link href="~/Table/css/main.css" rel="stylesheet" />*@
+<script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+@*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>*@
+@*<script src="~/js/jquery.validate.js"></script>*@
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+
+            <form asp-action="SaveItemMaster" class="needs-validation" name="frmSaveSaveItemMaster" id="frmSaveItemMaster" role="form" data-toggle="validator">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Item Master Registration</h1>
+                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-3">
+                        <label>Code</label>
+                        <input asp-for="ItemCode" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="ItemCode" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Name</label>
+                        <input asp-for="ItemName" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="ItemName" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Qty</label>
+                        <input asp-for="qty" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="qty" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Maxqty</label>
+                        <input asp-for="Maxqty" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="Maxqty" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Purchase Price</label>
+                        <input asp-for="PurPrice" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="PurPrice" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Sales Price</label>
+                        <input asp-for="SalesPrice" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="SalesPrice" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>Min Price</label>
+                        <input asp-for="Price" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="Price" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label>ROL</label>
+                        <input asp-for="rol" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="rol" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label> Category</label>
+                        <select asp-for="CategoryId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="CategoryId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label> Brand</label>
+                        <select asp-for="ItemBrandId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="ItemBrandId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label> Tax</label>
+                        <select asp-for="TaxMasterId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="TaxMasterId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Description</label>
+                        <input asp-for="Description" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="Description" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>BarCode</label>
+                        <input type="hidden" asp-for="BarCode" class="form-control" data-error="Please enter your name" disabled="disabled" />
+                        <img alt='' id="imgbarcode" /><button id="printBarcode">Print</button>
+                        <span asp-validation-for="BarCode" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Product Code</label>
+                        <input asp-for="ProductCode" class="form-control" data-error="Please enter your name" />
+                        <span asp-validation-for="ProductCode" class="text-danger" data-ng-message=""></span>
+                    </div>
+
+                </div>
+
+                <input type="hidden" asp-for="Id" />
+            </form>
+        </div>
+    </div>
+</div>
+@*<script src="~/js/Barcode.js"></script>
+<script src="~/js/JsBarcode.js"></script>*@
+<script type="text/javascript">
+
+      $.ajax({
+
+        url: '/Company/GetCategory',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#CategoryId').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].categoryName + '</option>';
+            }
+            $('#CategoryId').append(divstring);
+            $('#CategoryId').val('@Model.CategoryId');
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetItemBrand',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            debugger;
+            var divstring = '';
+            $('#ItemBrandId').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].brnadname + '</option>';
+            }
+            $('#ItemBrandId').append(divstring);
+            $('#ItemBrandId').val('@Model.ItemBrandId');
+
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetTaxMaster',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#TaxMasterId').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].taxName + '</option>';
+            }
+            $('#TaxMasterId').append(divstring);
+            $('#TaxMasterId').val('@Model.TaxMasterId');
+
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $(document).on('change', '#ProductCode', function (e) {
+        
+        var code = $('#ProductCode').val();
+        e.preventDefault();
+        $('#ProductCode').val(code);
+        
+    });
+    $(document).ready(function () {
+        debugger;
+        jQuery('.select2').select2();
+        var src = "https://barcode.tec-it.com/barcode.ashx?data=" + $('#BarCode').val()+ "&code=&multiplebarcodes=true&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&codepage=&qunit=Mm&quiet=0";
+        $('#imgbarcode').attr('src',src);
+
+
+    });
+    $(document).on("click", "#printBarcode", function () {
+        var src = "https://barcode.tec-it.com/barcode.ashx?data=" + $('#BarCode').val() + "&code=&multiplebarcodes=true&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&codepage=&qunit=Mm&quiet=0";
+        window.open(src, "_blank");
+    });
+    
+</script>
+

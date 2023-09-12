@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "No Stock Items";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-2">
+                    From Date <br /><input type="text" class="form-control datepicker" id="serfromdate" />
+                </div>
+                <div class="col-md-2">
+                    To Date<br /> <input type="text" class="form-control datepicker" id="sertodate" />
+                </div>
+
+                <div class="col-md-3">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                </div>
+
+            </div>
+            <div class="x_content">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    $.ajax({
+
+        url: '/Report/getDailyProcess',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            $('.x_content').empty();
+            var divstring = '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>CashInHand</p><h3>' + data.cashInHand + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Sales</p><h3>' + data.sales + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Purchase</p><h3>' + data.purchase + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>recipt</p><h3>' + data.recipt + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>payables</p><h3>' + data.payables + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>SalesPaid</p><h3>' + data.custpay + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>PurchasePaid</p><h3>' + data.suplpay + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Profit</p><h3>' + ((data.sales) - (data.purchase)) + '</h3></div></div></div>';
+            divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Cash</p><h3>' + ((data.recipt + data.custpay) - (data.payables + data.suplpay)) + '</h3></div></div></div>'
+            //divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Total</p><h3>' + ((data.sales + data.recipt+) - (data.sales)) + '</h3></div></div></div>';
+
+            $('.x_content').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    jQuery("#btnSearch").click(function () {
+        var serfromdate = $("#serfromdate").val();
+        var sertodate = $("#sertodate").val();
+        $.ajax({
+
+            url: '/Report/getDailyProcess',
+            type: 'GET',
+            data: { serfrom: serfromdate, serto: sertodate },
+            dataType: 'json',
+            success: function (data) {
+                $('.x_content').empty();
+                var divstring = '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>CashInHand</p><h3>' + data.cashInHand + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Sales</p><h3>' + data.sales + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Purchase</p><h3>' + data.purchase + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>recipt</p><h3>' + data.recipt + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>payables</p><h3>' + data.payables + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>SalesPaid</p><h3>' + data.custpay + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>PurchasePaid</p><h3>' + data.suplpay + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Profit</p><h3>' + ((data.sales) - (data.purchase)) + '</h3></div></div></div>';
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>Cash</p><h3>' + ((data.recipt + data.custpay) - (data.payables + data.suplpay)) + '</h3></div></div></div>';
+
+                $('.x_content').append(divstring);
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+</script>

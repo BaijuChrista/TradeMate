@@ -1,0 +1,272 @@
+﻿@{
+    ViewData["Title"] = "Sales Orders Report";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-1">
+                    From Date <br /><input type="text" class="form-control datepicker"  id="serfromdate" />
+                </div>
+                <div class="col-md-1">
+                    To Date<br /> <input type="text" class="form-control datepicker"  id="sertodate" />
+                </div>
+                <div class="col-md-2">
+                    Reference No <br /><input type="text" class="form-control"  id="serRefNo" />
+                </div>
+                <div class="col-md-2">
+                    Customer <br />
+                    <select id="serCustomer" name="serCustomer" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Order Created By <br />
+                    <select id="serUser" name="serUser" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnProcess">Process</button>
+                </div>
+            </div>
+            <div class="x_content">
+                <table id="list-salesorderlist" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-salesorderlist').jqGrid({
+        url: '/Report/GetSalesOrder',
+        datatype: 'json',
+        colNames: ['Id', 'Ref No', 'Date', 'Customer', 'Amount', 'Details', 'Status'],
+        colModel: [
+            { name: 'id', index: 'id', width: 200, hidden: true },
+            { name: 'refno', index: 'refno', width: 200, sorttype: "date" },
+            { name: 'orderdate', index: 'orderdate', width: 120, formatter: 'date', formatoptions: { srcformat: 'Y/m/d', newformat: 'd-M-Y' } },
+            { name: 'customer.customerName', index: 'customer.customerName', width: 200 },
+            { name: 'total', index: 'total', width: 250 },
+            { name: 'details', index: 'details', width: 250 },
+            { name: 'status', formatter: addstatus, width: 100 }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+
+        subGrid: true,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        subGridRowExpanded: function (subgrid_id, row_id) {
+            debugger;
+            var subgrid_table_id, pager_id;
+            subgrid_table_id = subgrid_id + "_t";
+            pager_id = "p_" + subgrid_table_id;
+            $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+            jQuery("#" + subgrid_table_id).jqGrid({
+                url: "/Sales/GetSalesOrderDetails?q=2&SalesOrderId=" + row_id,
+                datatype: 'json',
+                colNames: ['Id', 'Sales Id', 'Item Name', 'Quantity', 'Price'],
+                colModel: [
+                    { name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true },
+                    { name: 'salesOrderId', index: 'salesOrderId', editable: false, width: 100, hidden: true },
+                    { name: "itemMaster.itemName", index: "itemMaster.itemName", width: 100 },
+                    {
+                        name: "qty", index: "qty", width: 100, formatter: 'number',
+                        summaryTpl: "Total : {0}  ",
+                        summaryType: "sum"
+                    },
+                    {
+                        name: "amount", index: "amount", width: 100, formatter: 'number',
+                        summaryTpl: "Total : {0}  ",
+                        summaryType: "sum"
+                    }
+
+                ],
+                jsonReader: {
+                    root: "rows",
+                    page: "page",
+                    total: "totalPages",
+                    records: "records",
+                    repeatitems: false,
+                    id: "0"
+                },
+                //  pager: pager_id,
+                rownumbers: true,
+                rowNum: 10,
+                rowList: [1, 2, 3],
+                sortname: 'qty',
+                sortorder: "asc",
+                height: '100%',
+                autowidth: true,
+                autoencode: true,
+                shrinkToFit: true,
+                gridview: true,
+                grouping: true,
+                groupingView: {
+                    groupField: ["salesOrderId"],
+                    groupColumnShow: [false],
+                    groupText: ["<b></b>"],
+                    groupOrder: ["asc"],
+                    groupSummary: [true],
+                    groupCollapse: false
+
+                },
+                idPrefix: subgrid_table_id + "_"
+            });
+            jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, { edit: false, add: false, del: false })
+        },
+        subGridRowColapsed: function (subgrid_id, row_id) {
+            // this function is called before removing the data
+            //var subgrid_table_id;
+            //subgrid_table_id = subgrid_id+"_t";
+            //jQuery("#"+subgrid_table_id).remove();
+        },
+        rownumbers: true,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true,
+        caption: 'List of Sales Orders'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true },
+    );
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.status == null)
+            return '';
+        switch (rowObject.status) {
+            case 1: return 'New Order';
+            case 2: return 'Order Processed';
+            case 3: return 'Order Picked Up';
+            case 4: return 'Delivered';
+            case 5: return 'Cancelled';
+        }
+    }
+    jQuery("#btnSearch").click(function () {
+        var serfromdate = $("#serfromdate").val();
+        var sertodate = $("#sertodate").val();
+        var serRefNo = $("#serRefNo").val();
+        var serCustomer = $("#serCustomer").val();
+        var serUser = $("#serUser").val();
+        jQuery("#list-salesorderlist").jqGrid('setGridParam',
+            {
+                url: "/Report/SearchSalesOrders?serfromdate=" + serfromdate + '&sertodate=' + sertodate + '&serRefNo=' + serRefNo + '&serCustomer=' + serCustomer + '&serUser=' + serUser
+                , page: 1
+            })
+            .trigger("reloadGrid");
+    });
+    jQuery("#btnProcess").click(function () {
+        debugger;
+        var grid = $("#list-salesorderlist");
+        var data = [];
+        var rowKey = grid.getGridParam("selarrrow");
+        if (!rowKey)
+            alert("No rows are selected");
+        else {
+            var selectedIDs = grid.getGridParam("selarrrow");
+            for (var i = 0; i < selectedIDs.length; i++) {
+                data.push(selectedIDs[i])
+            }
+            $.ajax({
+                url: "/Process/UpdateProcessed",
+                type: 'POST',
+                data: { Ids: data },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        }
+        //alert(rows);
+    });
+    $.ajax({
+        url: '/Company/GetCustomer',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">Select All</option>';
+            $('#serCustomer').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].customerName + '</option>';
+            }
+            $('#serCustomer').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+        url: '/Admin/GetApplicationUser',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">Select All</option>';
+            $('#serUser').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].username + '</option>';
+            }
+            $('#serUser').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+</script>

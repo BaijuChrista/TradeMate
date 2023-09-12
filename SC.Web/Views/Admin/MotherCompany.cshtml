@@ -1,0 +1,119 @@
+﻿
+@model MotherCompany
+@{
+    ViewData["Title"] = "Mother Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<!doctype html>
+<html>
+@*<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+
+            @using (Html.BeginForm("CreateMotherCompany", "Admin", FormMethod.Post,
+       new { enctype = "multipart/form-data" }))
+            {<div class="box-header with-border">
+                    <h1 class="box-title">Company Registration</h1>
+                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">Name</label>
+                        @Html.TextBoxFor(Model => Model.CompanyName, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">Short Name</label>
+                        @Html.TextBoxFor(Model => Model.shortname, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Company Address</label>
+                        @Html.TextBoxFor(Model => Model.CompanyAddress, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Zip Code</label>
+                        @Html.TextBoxFor(Model => Model.Zipcode, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Support Contact No</label>
+                        @Html.TextBoxFor(Model => Model.SupportNo, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Support Contact Mail</label>
+                        @Html.TextBoxFor(Model => Model.SupportMail, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">License</label>
+                        @Html.TextBoxFor(Model => Model.License, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Tax Reg No</label>
+                        @Html.TextBoxFor(Model => Model.TaxNo, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Other Reg No</label>
+                        @Html.TextBoxFor(Model => Model.Otherreg, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Started In</label>
+                        @Html.TextBoxFor(Model => Model.StartedIn, new { @class = "form-control datepicker", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <div class=" col-lg-3">
+                            @Html.HiddenFor(Model => Model.image)
+                            <label for="exampleInputFile">Logo</label>
+                            <img src="@Model.image" width="150px" height="100px" />
+                            <input type="file" asp-for="MyImage" id="exampleInputFile">
+                            <p class="help-block"></p>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        @Html.TextBoxFor(Model => Model.Details, new { @class = "form-control", @required = "required" })
+                    </div>                    
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+               
+            }
+        </div>
+    </div>
+</div>*@
+</html>
+@*<script src="~/js/jquery-1.7.2.min.js"></script>*@
+<script>
+
+
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
+</script>
+   
+   
+
+

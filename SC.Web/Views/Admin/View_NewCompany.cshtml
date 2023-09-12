@@ -1,0 +1,214 @@
+﻿
+@model Company
+@{
+    ViewData["Title"] = "New Company Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<style>
+    #map {
+        height: 350px;
+        width: 350px;
+        display: block;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+</style>
+<!doctype html>
+<html>
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+
+            @using (Html.BeginForm("CreateCompany", "Admin", FormMethod.Post,
+     new { enctype = "multipart/form-data" }))
+            {<div class="box-header with-border">
+                    <h1 class="box-title">New Company Registration</h1>
+                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">Name</label>
+                        @Html.TextBoxFor(Model => Model.CompanyName, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">Short Name</label>
+                        @Html.TextBoxFor(Model => Model.shortname, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Company Address</label>
+                        @Html.TextBoxFor(Model => Model.CompanyAddress, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Zip Code</label>
+                        @Html.TextBoxFor(Model => Model.Zipcode, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">City</label>
+                        @Html.DropDownListFor(x => x.CityId, new List<SelectListItem>{
+      new SelectListItem {Text="Abu Dhabi",Value="2" },
+      new SelectListItem {Text="Dubai",Value="2" },
+      new SelectListItem {Text="Sharjah",Value="2" },
+   },"Choose", new { style = "width:100%", @class = "form-control select2" })
+                    </div>
+
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Mail</label>
+                        @Html.TextBoxFor(Model => Model.SupportMail, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Number</label>
+                        @Html.TextBoxFor(Model => Model.SupportNo, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">License</label>
+                        @Html.TextBoxFor(Model => Model.License, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Started In</label>
+                        @Html.TextBoxFor(Model => Model.StartedIn, new { @class = "form-control datepicker", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Tax No</label>
+                        @Html.TextBoxFor(Model => Model.TaxNo, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Other Reg</label>
+                        @Html.TextBoxFor(Model => Model.Otherreg, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        @Html.TextBoxFor(Model => Model.Details, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <div id="floating-panel">
+                            <input id="address" type="text" value="">
+                            <input id="Mapsubmit" type="button" value="GetCurrent">
+                        </div>
+                        <div id="map"></div>
+
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+                @Html.HiddenFor(Model => Model.Lattitude)
+                @Html.HiddenFor(Model => Model.Longitude)
+            }
+        </div>
+    </div>
+</div>
+</html>
+@*<script src="~/js/jquery-1.7.2.min.js"></script>*@
+<script>
+
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+
+    var map, infoWindow;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: { lat: 24.4644789, lng: 54.3651206 }
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('Mapsubmit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            $("#Lattitude").val(event.latLng.lat());
+            $("#Longitude").val(event.latLng.lng());
+            geocoder.geocode({
+                'latLng': event.latLng
+            }, function (results, status) {
+                if (status ==
+                    google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        $("#CompanyAddress").val(results[1].formatted_address);
+                        alert("Location Picked");
+
+                    } else {
+                        alert('No results found');
+                    }
+                } else {
+                    alert('Geocoder failed due to: ' + status);
+                }
+            });
+        });
+        infoWindow = new google.maps.InfoWindow;
+        function geocodeAddress(geocoder, resultsMap) {
+            debugger;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    debugger;
+                    $("#Lattitude").val(position.coords.latitude);
+                    $("#Longitude").val(position.coords.longitude);
+                    $("#CompanyAddress").val(position.formatted_address);
+                    alert("Location Picked");
+
+                });
+            }
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+
+    function resizeChosen() {
+        $(".chosen-container").each(function () {
+            $(this).attr('style', 'width: 100%');
+            //$(this).attr('style', 'height: 200%');
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ_WzHFJGtNughETwVqmHBvnl-wKZmFnk&callback=initMap" async defer></script>
+

@@ -1,0 +1,66 @@
+USE [TradeMate]
+GO
+/****** Object:  Trigger [dbo].[TradeMate_UpdateBankLedger]    Script Date: 11/4/2019 5:20:39 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:           <Author,,Baiju>
+-- Create date: <Create Date,,>
+-- Description:      <Description,,>
+-- =============================================
+ALTER TRIGGER [dbo].[TradeMate_UpdateBankLedger] 
+   ON  [dbo].[BankTxn]
+   AFTER INSERT
+AS 
+BEGIN
+       -- SET NOCOUNT ON added to prevent extra result sets from
+       -- interfering with SELECT statements.
+       SET NOCOUNT ON;
+UPDATE [dbo].[BankTxn]  SET transno = CASE when i.trantype=  1 THEN 'BPV'+ convert(char(4), i.CreatedDate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4)  else  'BRV'+ convert(char(4), i.CreatedDate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4)  end 
+  from inserted i 
+join [dbo].[BankTxn] so on i.id=so.Id
+
+    -- Insert statements for trigger here
+       insert into [dbo].[ledgertxn]
+      ([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+select i.CreatedUserId,i.ModifiedUserId,i.CreatedDate,i.ModifiedDate,i.IpAddress,1,
+CASE when i.trantype=  1 then la.Id else 21 end,i.CreatedDate,
+i.amount,0,i.narration,so.transno from inserted i 
+join [dbo].[BankTxn] so on i.id=so.Id
+join [dbo].[Bank] ba on ba.id=so.BankId
+join [dbo].[partner] pa on pa.id=ba.partnerId
+join [dbo].[ledger] la on la.partnerId=pa.id
+insert into [dbo].[ledgertxn]
+      ([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+select i.CreatedUserId,i.ModifiedUserId,i.CreatedDate,i.ModifiedDate,i.IpAddress,1,CASE when i.trantype= 1 then 21 else la.Id end,i.CreatedDate,0,i.amount,i.narration,so.transno 
+from inserted i
+join [dbo].[BankTxn] so on i.id=so.Id
+join [dbo].[Bank] ba on ba.id=so.BankId
+join [dbo].[partner] pa on pa.id=ba.partnerId
+join [dbo].[ledger] la on la.partnerId=pa.id
+END
+

@@ -1,0 +1,519 @@
+﻿@{
+    ViewData["Title"] = "Item List";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="modal fade" id="modal-resend">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Item Attachments</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Item Name</label>
+                            <input type="text" class="form-control" name="itemname" id="itemname" readonly="readonly" />
+
+                        </div>
+                        <div class="col-md-2">
+                            <label>Item Type</label>
+                            <select class="form-control select2" name="type" id="type">
+                                <option value="0">All</option>
+                                <option value="1">Baquala</option>
+                                <option value="2">Mobile</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Current Price</label>
+                            <input type="text" class="form-control" name="price" id="price" readonly="readonly" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Offer Price</label>
+                            <input type="text" class="form-control" name="OfferPrice" id="OfferPrice" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Baqala Price</label>
+                            <input type="text" class="form-control" name="BaqalaPrice" id="BaqalaPrice" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Mobile Price</label>
+                            <input type="text" class="form-control" name="MobilePrice" id="MobilePrice" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Stationary Price</label>
+                            <input type="text" class="form-control" name="StatnPrice" id="StatnPrice" />
+                        </div>
+                        <div class="col-md-2">
+                            <br />
+                            <button type="button" class="btn btn-primary" style="margin-right: 5px !important; padding: 3px 10px;" id="btnUpdatePrice">Update</button>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-hover text-nowrap" id="list-images">
+                            </table>
+                            <form id='file-catcher'>
+                                <input type="hidden" id="attachid" name="attachid" />
+                                <input id='file-input' type='file' multiple />
+                                <button type="submit" class="btn btn-primary" style="margin-right: 5px !important; padding: 3px 10px;" id="btnUpdateAttachment">Update Attachments</button>
+
+                            </form>
+
+                            <div id='file-list-display'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-2">
+                    Item Code <br /><input type="text" class="form-control" id="serCode" />
+                </div>
+                <div class="col-md-2">
+                    Item Name <br /><input type="text" class="form-control" id="serName" />
+                </div>
+                <div class="col-md-2">
+                    Category <br /><select id="serCategory" name="category" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Status <br /><select id="serstatus" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Brand <br /><select id="serBrand" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+
+                <div class="col-md-2">
+
+                    <br />
+
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" onclick="location.href='@Url.Action("NewItem", "Company")'">New</button>
+                </div>
+
+                <div class="col-md-4">
+                    Scroll Text <br /><textarea class="form-control" id="txtScroll"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <label>Type</label>
+                    <select class="form-control select2" name="ddlScrolltype" id="ddlScrolltype">
+                        <option value="1">Baquala</option>
+                        <option value="2">Mobile</option>
+                        <option value="3">Service</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnUpdateScroll">Update</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="list-item" style="color:black !important" class="table table-dark"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-item').jqGrid({
+        url: '/Company/GetAllItemMaster',
+        datatype: 'json',
+        colNames: ['Id', 'ItemCode', 'Name', 'Price', 'Offer Price', 'Description', 'Quantity', 'Type', 'Online Status', 'Attachments'],
+        colModel: [
+            {
+                name: 'id', index: 'id', editable: false, width: 100, key: true, hidden: true
+            },
+            { name: 'itemCode', index: 'itemCode', editable: true, width: 100, editrules: { required: true } },
+            { name: 'itemName', index: 'itemName', editable: true, width: 200 },
+            { name: 'price', index: 'price', editable: true, width: 100 },
+            { name: 'offerprice', index: 'offerprice', editable: true, width: 100 },
+            { name: 'description', index: 'description', editable: true, width: 200 },
+            { name: 'qty', index: 'qty', editable: true, width: 100 },
+            { name: 'typeColumn', width: 60, formatter: addtype },
+            { name: 'statusColumn', width: 60, formatter: addstatus },
+            { name: 'deleteColumns', width: 60, formatter: addDeleteLink }
+
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "total",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        rownumbers: true,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        caption: 'List of Items'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: false });
+    $.ajax({
+
+        url: '/Company/GetCategory',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">Select All</option>';
+            $('#serCategory').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].categoryName + '</option>';
+            }
+            $('#serCategory').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    getscrolltext(1);
+    $.ajax({
+
+        url: '/Company/GetItemBrand',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">Select All</option>';
+            $('#serBrand').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].brnadname + '</option>';
+            }
+            $('#serBrand').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    jQuery("#btnSearch").click(function () {
+        debugger;
+        var serCode = $("#serCode").val();
+        var serName = $("#serName").val();
+        var serCategory = $("#serCategory").val();
+        var serBrand = $("#serBrand").val();
+        jQuery("#list-item").jqGrid('setGridParam',
+            { url: "/Company/SearchItem?serCode=" + serCode + '&serName=' + serName + '&serCategory=' + serCategory + '&serBrand=' + serBrand, page: 1 })
+            .trigger("reloadGrid");
+
+
+
+    });
+
+
+    function getscrolltext(type = 1) {
+        $.ajax({
+
+            url: '/Home/GetScrollText',
+            type: 'GET',
+            dataType: 'json',
+            data: { type: type },
+            success: function (data) {
+                $("#txtScroll").val(data);
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    }
+
+    jQuery("#btnUpdateScroll").click(function () {
+        var txtScroll = $("#txtScroll").val();
+        var ddlScrolltype = $("#ddlScrolltype").val();
+        var ScrollText = {
+            text: txtScroll,
+            type: ddlScrolltype
+        }
+        $.ajax({
+            url: '/Home/CreateScrollText',
+            type: 'POST',
+            dataType: 'json',
+            data: { ScrollText: ScrollText },
+            async: false,
+            success: function (data) {
+                debugger;
+                window.location.href = '/Company/ItemAttachmentsListLoad'
+                toastr.success('Text Updated');
+            },
+            error: function () {
+                toastr.error('Some this went wrong');
+            }
+        });
+
+    });
+
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.showcart == null)
+            return '';
+        var Id = rowObject.id;
+        if (!rowObject.showcart) {
+            return '<a href="javascript:showonline(' + Id + ');" style="color:red">Not show</a>';
+        }
+        return '<a href="javascript:showonline(' + Id + ');" style="color:green">Show</a>';
+    }
+    function addtype(cellvalue, options, rowObject) {
+        debugger;
+        var type = rowObject.type;
+        switch (type) {
+            case 1: return 'Baquala';
+            case 2: return 'Mobile';
+            default: return 'All';
+        }
+    }
+
+    function addDeleteLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="javascript:Itemattachment(' + Id + ');" style="color:green"  class="fa fas fa-paperclip"></a>';
+    }
+    $("#btnExport").on("click", function () {
+        createExcelFromGrid("list-item", "Item")
+    })
+    var createExcelFromGrid = function (gridID, filename) {
+        var grid = $('#' + gridID);
+        var rowIDList = grid.getDataIDs();
+        var row = grid.getRowData(rowIDList[0]);
+        var colNames = [];
+        var i = 0;
+        var html = '<table border="1px"><tr>';
+        for (var cName in row) {
+            if (cName == "id" || cName == "modify") {
+            }
+            else {
+                colNames[i++] = cName;
+                switch (cName) {
+                    case "name": html += '<th>Name</th>';
+                        break;
+                    case "smallunit": html += '<th>Unit</th>';
+                        break;
+                    case "roe": html += '<th>ROE</th>';
+                        break;
+                }
+            }// Capture Column Names
+        }
+        html += '</tr>';
+        for (var j = 0; j < rowIDList.length; j++) {
+            row = grid.getRowData(rowIDList[j]); // Get Each Row
+            html += '<tr>';
+            for (var i = 0; i < colNames.length; i++) {
+                html += '<td bgcolor="#D0D3D4 ">' + row[colNames[i]] + '</td>'; // Create a CSV delimited with ;
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        var a = document.createElement('a');
+        a.id = 'ExcelDL';
+        a.href = 'data:application/vnd.ms-excel,' + escape(html);
+        a.download = filename ? filename + ".xls" : 'DataList.xls';
+        document.body.appendChild(a);
+        a.click(); // Downloads the excel document
+        document.getElementById('ExcelDL').remove();
+    }
+
+    $("#btnUpdatePrice").on("click", function () {
+        var price = $('#OfferPrice').val();
+        var mobileprice = $('#MobilePrice').val();
+        var baqalaprice = $('#BaqalaPrice').val();
+        var stationaryprice = $('#StatnPrice').val();
+        var id = $('#attachid').val();
+        var type = $('#type').val();
+        var itemName = $('#itemname').val(itemName);
+        $.ajax({
+            url: '/Company/UpdatePrice',
+            type: 'POST',
+            dataType: 'json',
+            data: { Id: id, price: price, type: type, mobileprice, baqalaprice, stationaryprice },
+            async: false,
+            success: function (data) {
+                debugger;
+                window.location.href = '/Company/ItemAttachmentsListLoad'
+                toastr.success('Price Updated for the item ' + itemName);
+            },
+            error: function () {
+                toastr.error('Some this went wrong');
+            }
+        });
+    })
+    function showonline(id) {
+        if (confirm("Are you sure want to show/Not show Item")) {
+            $.ajax({
+                url: '/Company/ShowItem',
+                type: 'POST',
+                dataType: 'json',
+                data: { Id: id },
+                async: false,
+                success: function (data) {
+                    debugger;
+                    window.location.href = '/Company/ItemAttachmentsListLoad'
+                },
+                error: function () {
+                    console.log('err')
+                }
+            });
+        }
+    }
+    function Itemattachment(id) {
+        $.ajax({
+            url: '/Company/GetItemAttachment',
+            type: 'GET',
+            dataType: 'json',
+            data: { Id: id },
+            success: function (result) {
+                item = result.data;
+                debugger;
+                $('#OfferPrice').val(item.offerprice);
+                $('#MobilePrice').val(item.mobilePrice);
+                $('#BaqalaPrice').val(item.baqalaPrice);
+                $('#StatnPrice').val(item.stationaryPrice);
+                $('#price').val(item.price);
+                $('#itemname').val(item.itemName);
+                $('#attachid').val(item.id);
+                $('#type').val(item.type);
+                loadimages(result.images);
+                $('#modal-resend').modal('toggle');
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+        //$('#modal-resend').show();
+    }
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    $(document).on("change", "#ddlScrolltype", function () {
+        debugger;
+        var ddlScrolltype = $("#ddlScrolltype").val();
+        getscrolltext(ddlScrolltype);
+    });
+    $(document).on("click", ".fa-trash", function () {
+        var Id = $(this).data('detailsid');
+        if (confirm("Are you sure want to Remove image")) {
+            $.ajax({
+                url: '/Company/DeleteAttachmentItem',
+                type: 'POST',
+                dataType: 'json',
+                data: { Id: Id },
+                async: false,
+                success: function (data) {
+                    debugger;
+                    window.location.href = '/Company/ItemAttachmentsListLoad'
+                },
+                error: function () {
+                    console.log('err')
+                }
+            });
+        }
+    })
+    function loadimages(images) {
+        $('#file-list-display').empty();
+        $('#list-images').empty();
+        debugger;
+        if (!images)
+            return;
+        var divstring = '<thead><tr><th class="fourpercentage">Sl#</th><th class="twentypercentage">Name</th><th class="twentypercentage">Image</th><th class="twentypercentage">Delete</th></tr></thead><tbody>';
+        for (var i = 0; i < images.length; i++) {
+            debugger;
+            var name = images[i].thumb.split('\\').pop();
+            divstring += '<tr><td>' + (i + 1) + '</td>';
+            divstring += '<td>' + name + '</td>';
+            divstring += '<td><img src="' + images[i].thumb + '" width="15%" /></td>';
+            divstring += '<td><a href="#" title="Delete Image"><i class="fa fas fa-trash" data-DetailsID="' + images[i].id + '"></i></a></td></tr>';
+        }
+        $('#list-images').append(divstring);
+    }
+    (function () {
+        var fileCatcher = document.getElementById('file-catcher');
+        var fileInput = document.getElementById('file-input');
+        var fileListDisplay = document.getElementById('file-list-display');
+
+        var fileList = [];
+        var renderFileList, sendFile;
+
+        fileCatcher.addEventListener('submit', function (evnt) {
+            evnt.preventDefault();
+            sendFile(fileList);
+            //fileList.forEach(function (file) {
+            //});
+        });
+
+        fileInput.addEventListener('change', function (evnt) {
+            fileList = [];
+            for (var i = 0; i < fileInput.files.length; i++) {
+                fileList.push(fileInput.files[i]);
+            }
+            renderFileList();
+        });
+
+        renderFileList = function () {
+            fileListDisplay.innerHTML = '';
+            fileList.forEach(function (file, index) {
+                var fileDisplayEl = document.createElement('p');
+                fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name;
+                fileListDisplay.appendChild(fileDisplayEl);
+            });
+        };
+
+        sendFile = function (fileList) {
+            var formData = new FormData();
+            //var request = new XMLHttpRequest();
+            fileList.forEach(function (file) {
+                formData.append('file', file);
+            });
+            var attachid = $('#attachid').val();
+            formData.set('attachid', attachid);
+
+            $.ajax({
+                url: '/Company/AddImageattachment',
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (dataofconfirm) {
+                    Itemattachment(attachid);
+                    // do something with the result
+                }
+            });
+        };
+    })();
+</script>

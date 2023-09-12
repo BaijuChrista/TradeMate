@@ -1,0 +1,65 @@
+﻿@model SC.Web.Models.ItemDisplayViewModel
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/_UserLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+
+<div class="span9">
+    <div class="well well-small" style="margin-left: -21px">
+        <h4>@Model.ItemDisplayView[0].DisplayType.Name <small class="pull-right"></small></h4>
+        <div class="row-fluid">
+            <div id="featured" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="item">
+                        <ul class="thumbnails">
+                            @foreach (var item in Model.ItemDisplayView[0].ListItemImages)
+                            {
+                                <li class="span3">
+                                    @Html.Partial("~/Views/EndUser/PartialView_Item.cshtml", item)
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    
+                </div>
+                @*<a class="left carousel-control" href="#featured" data-slide="prev">‹</a>
+                <a class="right carousel-control" href="#featured" data-slide="next">›</a>*@
+            </div>
+        </div>
+    </div>
+    @foreach (var viewitem in Model.ItemDisplayView)
+    {
+    <h4>@viewitem.DisplayType.Name </h4>
+        <ul class="thumbnails">
+            @foreach (var item in viewitem.ListItemImages)
+            {
+                <li class="span3">
+                    @Html.Partial("~/Views/EndUser/PartialView_Item.cshtml", item)
+                </li>
+            }
+        </ul>
+    }
+    </div>
+
+
+

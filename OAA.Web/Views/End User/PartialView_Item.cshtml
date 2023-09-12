@@ -1,0 +1,27 @@
+﻿@model SC.Data.ItemImage
+
+<div id="divOpenProjectViewDetails">
+
+    @{ var item = Model;
+        <a href='@Url.Action("ItemDetails", "EndUser", new { ItemId = item.ItemDisplay.Id })' style="text-decoration: none;color:Black">
+
+
+            <div class="thumbnail">
+                <a href='@Url.Action("ItemDetails", "EndUser", new { ItemId = item.ItemDisplay.Id })'><img src=@item.thumb alt=""></a>
+                <div class="caption">
+                    <h5>@item.ItemDisplay.DisplayText</h5>
+                    <h5>@item.ItemDisplay.ItemMaster.ItemName</h5>
+                    <h3 style="text-align: center">&#x20b9 @item.ItemDisplay.Price</h3>
+                </div>
+            </div>
+
+        </a>
+
+    }
+
+
+</div>
+
+<script type="text/javascript">
+
+</script>

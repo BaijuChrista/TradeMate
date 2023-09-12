@@ -1,0 +1,263 @@
+﻿@{
+    ViewData["Title"] = "Customer List";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-2">
+                    Customer Code <br /><input type="text" class="form-control" id="serCode" />
+                </div>
+                <div class="col-md-2">
+                    Customer Name <br /><input type="text" class="form-control" id="serName" />
+                </div>
+                <div class="col-md-2">
+                    Customer City <br />
+                    <select id="serCity" name="status" class="form-control" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Customer Category <br />
+                    <select id="serCategory" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Customer Group <br />
+                    <select id="serGroup" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" onclick="location.href='@Url.Action("NewCustomer", "Company")'">New</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="list-customer" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-customer').jqGrid({
+        url: '/Company/GetCustomer',
+        datatype: 'json',
+        colNames: ['Id', 'Code', 'Name', 'Short Name', 'Address', 'Zip', 'City', 'Mail', 'Contact', 'Category', 'Group', 'Location', 'Modify'],
+        colModel: [
+            { name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true },
+            { name: 'code', index: 'code', editable: false, width: 150, sortable: true },
+            { name: 'customerName', index: 'customerName', editable: false, width: 150 },
+            { name: 'shortname', index: 'shortname', editable: false, width: 100 },
+            { name: 'customerAddress', index: 'customerAddress', editable: false, width: 200 },
+            { name: 'zipcode', index: 'zipcode', editable: false, width: 100 },
+            { name: 'city.name', index: 'city.name', editable: false, width: 100 },
+            { name: 'supportMail', index: 'supportMail', editable: false, width: 100 },
+            { name: 'supportNo', index: 'supportNo', editable: false, width: 100 },
+            { name: 'customercategory.name', index: 'customercategory.name', editable: false, width: 100 },
+            { name: 'customergroup.name', index: 'customergroup.name', editable: false, width: 100 },
+            { name: 'customLocation', width: 60, formatter: getLocation },
+            { name: 'customColumns', width: 60, formatter: addEditLink }
+
+
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "total",
+            records: "records",
+            repeatitems: false,
+            id: "id"
+        },
+        rowNum: 250,
+        rownumbers: true,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        viewrecords: true,
+        
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        caption: 'List of Customers'
+       
+    }).navGrid('#pager', { edit: false, add: false, del: true, search: false, refresh: false, closeAfterSearch: true },
+        {
+            zIndex: 100,
+            url: '/Company/SaveItem',
+            closeOnEscape: true,
+            closeAfterEdit: true,
+            recreateForm: true,
+            afterComplete: function (response) {
+                if (response.responseText) {
+                    alert(response.responseText);
+                }
+            }
+        },
+        {
+
+            url: "/Company/SaveItem",
+            closeOnEscape: true,
+            closeAfterAdd: true,
+            afterComplete: function (response) {
+                if (response.responseText) {
+                    alert(response.responseText);
+                }
+            }
+        },
+        {
+            zIndex: 100,
+            url: "/Company/DeleteCustomer",
+            closeOnEscape: true,
+            closeAfterDelete: true,
+            recreateForm: true,
+            msg: "Are you sure you want to delete Customer... ? ",
+            afterComplete: function (response) {
+                if (response.responseText) {
+                    alert(response.responseText);
+                }
+            }
+        });
+    $.ajax({
+
+        url: '/Company/GetCustomerCategory',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#serCategory').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCategory').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetCustomerGroup',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#serGroup').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serGroup').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetCity',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#serCity').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCity').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    jQuery("#btnSearch").click(function () {
+
+        var serCode = $("#serCode").val();
+        var serName = $("#serName").val();
+        var serCity = $("#serCity").val();
+        var serCategory = $("#serCategory").val();
+        var serGroup = $("#serGroup").val();
+        jQuery("#list-customer").jqGrid('setGridParam',
+            { url: "/Company/SearchCustomer?serCode=" + serCode + '&serName=' + serName + '&serCity=' + serCity + '&serCategory=' + serCategory + '&serGroup=' + serGroup, page: 1 })
+            .trigger("reloadGrid");
+    });
+    function addEditLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="/Company/NewCustomer?id=' + Id + '"  class="fa fas fa-edit"></a>';
+    }
+
+    function getLocation(cellvalue, options, rowObject) {
+        debugger;
+        if (rowObject.lattitude == null || rowObject.lattitude.trim() === "") {
+            return '<a href="#" class="fa fas fa-map" style="color:red"></a>';
+        }
+        return '<a href="#" class="fa fas fa-map" style="color:green"></a>';
+        //return '<div><i class="fa fas fa-map-marked"></i></div>';
+    }
+    function createExcelFromGrid(gridID, filename) {
+        var grid = $('#' + gridID);
+        var rowIDList = grid.getDataIDs();
+        var row = grid.getRowData(rowIDList[0]);
+        var colNames = [];
+        var i = 0;
+        var html = '<table border="1px"><tr>';
+        for (var cName in row) {
+            if (cName == "id" || cName == "customLocation" || cName == "customColumns") {
+            }
+            else {
+                colNames[i++] = cName;
+                html += '<th>' + cName + '</th>';
+
+            }// Capture Column Names
+        }
+        html += '</tr>';
+        for (var j = 0; j < rowIDList.length; j++) {
+            row = grid.getRowData(rowIDList[j]); // Get Each Row
+            html += '<tr>';
+            for (var i = 0; i < colNames.length; i++) {
+                html += '<td bgcolor="#D0D3D4 ">' + row[colNames[i]] + '</td>'; // Create a CSV delimited with ;
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        var a = document.createElement('a');
+        a.id = 'ExcelDL';
+        a.href = 'data:application/vnd.ms-excel,' + escape(html);
+        a.download = filename ? filename + ".xls" : 'DataList.xls';
+        document.body.appendChild(a);
+        a.click(); // Downloads the excel document
+        document.getElementById('ExcelDL').remove();
+    }
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+
+    $("#btnExport").on("click", function () {
+        createExcelFromGrid("list-customer", "customers")
+    })
+
+</script>

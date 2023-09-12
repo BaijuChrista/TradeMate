@@ -1,0 +1,99 @@
+﻿@{
+	ViewData["Title"] = "User Type Master";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<table id="list-student"  style="color:black !important" class="table table-dark"></table>
+<div id="pager"></div>
+<script>
+	$('#list-student').jqGrid({
+		url: '/Admin/GetuserType',
+		datatype: 'json',
+		colNames: ['Id', 'Name', 'Status'],
+		colModel: [
+			{
+				name: 'id', index: 'Id', editable: false, width: 100, key: true,hidden: true },
+			{ name: 'name', index: 'name', editable: true, width: 240, editrules: { required: true } },
+			{ name: 'status', index: 'Status', editable: false, width: 240, hidden: true }			
+
+		],
+		jsonReader: {
+			root: "rows",
+			page: "page",
+			total: "total",
+			records: "records",
+			repeatitems: false,
+			id: "0"  },
+		 rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        rownumbers: true,
+        scroll: 1,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',		
+		caption: 'List of User Types'		
+	}).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: true, closeAfterSearch: true  },
+		{
+			zIndex: 100,
+			url: '/Admin/EditUserType',
+			closeOnEscape: true,
+			closeAfterEdit: true,
+			recreateForm: true,
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		},
+		{
+			
+			url: "/Admin/CreateUserType",
+			closeOnEscape: true,
+			closeAfterAdd: true,
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		},
+		{
+			zIndex: 100,
+			url: "/Student/Delete",
+			closeOnEscape: true,
+			closeAfterDelete: true,
+			recreateForm: true,
+			msg: "Are you sure you want to delete Student... ? ",
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		});  
+</script>

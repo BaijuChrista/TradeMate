@@ -1,0 +1,83 @@
+USE [TrademateServer]
+GO
+/****** Object:  Trigger [dbo].[TradeMate_UpdateStock]    Script Date: 11/21/2019 4:45:02 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:           <Author,,Baiju>
+-- Create date: <Create Date,,>
+-- Description:      <Description,,>
+-- =============================================
+ALTER TRIGGER [dbo].[TradeMate_UpdateStock] 
+   ON  [dbo].[SalesDetail]
+   AFTER INSERT
+AS 
+BEGIN
+
+
+declare @qty int=0;
+declare @qtyinserted int=0;
+declare @totalcost int=0;
+select @qty= qty from inserted;
+while (@qty>0)
+begin
+set @qtyinserted=@qty;
+declare @stockid int=0;
+declare @stockold int=0;
+declare @PurPrice int=0;
+select top 1 @stockid=so.Id,@stockold=stock,@PurPrice=PurPrice
+from inserted i 
+join [dbo].[StockMaster] so on i.ItemMasterId=so.ItemMasterId
+where so.stock>0
+order by so.PurPrice
+update [dbo].[StockMaster] set stock=case when stock-@qty>0 then stock-@qty else 0 end  where Id=@stockid
+set @qty=@qty-@stockold 
+set @totalcost=@totalcost+case when @qty<0 then @qtyinserted*@PurPrice else (@qtyinserted-@qty)*@PurPrice end
+end
+update dbo.SalesDetail set cost=round((@totalcost)/qty,2) where id in(select id from inserted)
+
+IF exists(select le.Id from dbo.ledgertxn le
+join Sales sa on sa.invoiceno= le.txnno and le.ledgerId=14
+join inserted i on i.SalesId=sa.Id)
+begin
+update ledgertxn set dr=dr+@totalcost from dbo.ledgertxn le
+join Sales sa on sa.invoiceno= le.txnno and le.ledgerId=14
+join inserted i on i.SalesId=sa.Id 
+update ledgertxn set cr=cr+@totalcost from dbo.ledgertxn le
+join Sales sa on sa.invoiceno= le.txnno and le.ledgerId=20
+join inserted i on i.SalesId=sa.Id 
+END
+Else
+Begin
+insert into [dbo].[ledgertxn]([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+  select sa.CreatedUserId,sa.ModifiedUserId,sa.CreatedDate,sa.ModifiedDate,sa.IpAddress,1,20,sa.salesdate,round(@totalcost,2),0,sa.details,sa.invoiceno  
+  FROM [dbo].Sales sa
+  insert into [dbo].[ledgertxn]([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+  select sa.CreatedUserId,sa.ModifiedUserId,sa.CreatedDate,sa.ModifiedDate,sa.IpAddress,1,14,sa.salesdate,0,round(@totalcost,2),sa.details,sa.invoiceno  FROM [dbo].Sales sa
+  End
+
+END

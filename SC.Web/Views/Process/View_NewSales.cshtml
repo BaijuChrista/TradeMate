@@ -1,0 +1,216 @@
+﻿@model SC.Data.Sales
+@{
+    ViewData["Title"] = "New Branch Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h1 class="box-title">New Sale</h1>
+                <button type="button" id="btnSaveSales" class="btn btn-primary btn-flat pull-right">Save</button>
+                <form class="needs-validation" name="frmSaveBranch" id="frmSaveBranch" role="form" data-toggle="validator">
+                    <div class="box-body">
+                        <div class="form-group col-lg-3">
+                            <label>invoiceno</label>
+                            <input asp-for="invoiceno" class="form-control" data-error="Please enter your name" disabled="disabled" />
+                            <span asp-validation-for="invoiceno" class="text-danger" data-ng-message=""></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>salesdate</label>
+                            <input asp-for="salesdate" class="form-control" data-error="Please enter your name" disabled="disabled" />
+                            <span asp-validation-for="salesdate" class="text-danger" data-ng-message=""></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>Customer</label>
+                            <input asp-for="Customer.CustomerName" class="form-control" disabled="disabled" />
+                            <span asp-validation-for="CustomerId" class="text-danger" data-ng-message=""></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>details</label>
+                            <input asp-for="details" class="form-control" data-error="Please enter your name" disabled="disabled" />
+                            <span asp-validation-for="details" class="text-danger" data-ng-message=""></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>Total</label>
+                            <input asp-for="Total" class="form-control" data-error="Please enter your name" disabled="disabled" />
+                            <span asp-validation-for="Total" class="text-danger" data-ng-message=""></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>Discount</label>
+                            <input asp-for="Discount" class="form-control" data-error="Please enter your name" required="required" />
+                            <span asp-validation-for="Discount" class="text-danger" data-ng-message=""></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>balance</label>
+                            <input asp-for="balance" class="form-control" data-error="Please enter your name" disabled="disabled" />
+                            <span asp-validation-for="balance" class="text-danger" data-ng-message=""></span>
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="SalesOrderId" />
+                    <input type="hidden" asp-for="CustomerId" />
+                    <input type="hidden" asp-for="Type" />
+                </form>
+            </div>
+            <div class="x_content">
+                <table id="list-salesorderprocess" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    //var lastsel;
+    $('#list-salesorderprocess').jqGrid({
+        url: "/Process/GetSalesOrderDetails?SalesOrderId=" + $('#SalesOrderId').val(),
+        datatype: 'json',
+        colNames: ['Id', 'item Id', 'Item', 'Qty', 'Processed','amount'],
+        colModel: [
+            { name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true },
+            { name: 'itemMasterId', index: 'itemMasterId', editable: false, width: 100, hidden: true },
+            { name: "itemMaster.itemName", index: "itemMaster.itemName", editable: false, width: 100 },
+            { name: "count", index: "count", formatter: addcount, width: 60, editable: false },
+            { name: "qty", index: "qty", width: 60, editable: true },
+            { name: "amount", index: "amount", width: 60, editable: false }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        subGrid: false,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        onSelectRow: function (id) {
+            jQuery('#list-salesorderprocess').jqGrid('editRow', id, true);
+
+        },
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true,
+        caption: 'List of Sales Orders to be Processed'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true },
+    );
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    function addcount(cellvalue, options, rowObject) {
+        return rowObject.qty;
+    }
+    $(document).on("click", "#btnSaveSales", function () {
+        debugger;
+        var SalesDetail = [];
+        var Sales = {
+            CustomerId: $('#CustomerId').val(),
+            SalesOrderId: $('#SalesOrderId').val(),
+            invoiceno: $('#invoiceno').val(),
+            salesdate: $('#salesdate').val(),
+            details: $('#details').val(),
+            Total: $('#Total').val(),
+            Discount: $('#Discount').val(),
+            balance: $('#balance').val(),
+            Id: $('#Id').val(),
+            Type: 1,
+            Status:2
+        };
+        $.ajax({
+            url: "/Process/SaveSales",
+            type: 'POST',
+            data: { Sales: Sales },
+            success: function (response) {
+                if (response.id > 0) {
+                    var gridID = "list-salesorderprocess";
+                    var grid = $('#' + gridID);
+                    var rowIDList = grid.getDataIDs();
+                    var row = grid.getRowData(rowIDList[0]);
+
+                    for (var j = 0; j < rowIDList.length; j++) {
+                        row = grid.getRowData(rowIDList[j]); // Get Each Row
+                        if (row.qty > 0) {
+                            SalesDetail.push({
+                                SalesId: response.id,
+                                ItemMasterId: row.itemMasterId,
+                                qty: row.qty,
+                                amount: row.amount
+                            });
+                        }
+                    }
+                    debugger;
+                    $.ajax({
+                        url: "/Process/SaveSalesOrderDetail",
+                        type: 'POST',
+                        data: { SalesDetail: SalesDetail },
+                        success: function (response) {
+                            window.location.href = '/Process/SalesOrderProcessLoad';
+                        },
+                        error: function (xhr) {
+                            alert("Something went wrong, please try again");
+                        }
+                    });
+                }
+                //alert(response.id);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+    });
+</script>
+

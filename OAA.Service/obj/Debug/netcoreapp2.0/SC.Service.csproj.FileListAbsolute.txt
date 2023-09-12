@@ -1,0 +1,253 @@
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Baiju\Electronics Designs\Own Project\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\As on 03-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\As on 14-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\As on 16-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\18-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Own Project\21-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Projects\27-10-2018\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Working\eshoppy\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Renjith\D\Shopping Cart Lastest\ShoppingCartApp\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Renjith\D\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csprojAssemblyReference.cache
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+C:\Users\baiju\OneDrive - Joyoun Holding\Working\WorkFromHome\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.deps.json
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.dll
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Service.pdb
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.dll
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.dll
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Data.pdb
+E:\Projects\RouteMapper\OAA.Service\bin\Debug\netcoreapp2.0\SC.Repository.pdb
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.AssemblyReference.cache
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfoInputs.cache
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.AssemblyInfo.cs
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CoreCompileInputs.cache
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.csproj.CopyComplete
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.dll
+E:\Projects\RouteMapper\OAA.Service\obj\Debug\netcoreapp2.0\SC.Service.pdb

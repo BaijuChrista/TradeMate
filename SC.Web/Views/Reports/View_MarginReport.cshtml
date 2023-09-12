@@ -1,0 +1,202 @@
+﻿@{
+    ViewData["Title"] = "Inventory Profit Margin";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-2">
+                      
+                    From Date <br /><input type="text" class="form-control datepicker" id="serfromdate" />
+                </div>
+                <div class="col-md-2">
+                    To Date <br /><input type="text" class="form-control datepicker" id="sertodate" />
+                </div>
+                <div class="col-md-2">
+                    Customer Name <br /><select id="serName" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Staff Name <br /><select id="serCreated"  class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Item Name <br /><select id="serItem" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                    @*<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" onclick="location.href='@Url.Action("NewItem", "Company")'">New</button>*@
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="list-inventorymargin" style="color:black !important" class="table table-dark"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-inventorymargin').jqGrid({
+        url: '/Report/GetMarginReport',
+        datatype: 'json',
+        colNames: ['Code', 'ItemName', 'Sale Amount', 'qty', 'Cost', 'Profit'],
+        colModel: [
+            { name: 'itemCode', index: 'itemCode', width: 200 },
+            { name: 'itemName', index: 'itemName', width: 200 },
+            {
+                name: "total", index: "total", width: 100, formatter: 'number',
+                summaryTpl: "Total : {0}  ",
+                summaryType: "sum"
+            },
+            { name: 'qty', index: 'qty', width: 200 },
+            {
+                name: "cost", index: "cost", width: 100, formatter: 'number',
+                summaryTpl: "Total : {0}  ",
+                summaryType: "sum"
+            },
+            {
+                name: "profit", index: "profit", width: 100, formatter: 'number',
+                summaryTpl: "Total : {0}  ",
+                summaryType: "sum"
+            }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "total",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        footerrow: true,
+        userDataOnFooter: true,
+        grouping: true,
+        gridComplete: function () {
+            var $grid = $('#list-inventorymargin');
+            $grid.jqGrid('footerData', 'set', {
+                name: "Total"
+            });
+            var colSum = $grid.jqGrid('getCol', 'amount', false, 'sum');
+            $grid.jqGrid('footerData', 'set', {
+                amount: colSum
+            });
+            var colSum1 = $grid.jqGrid('getCol', 'cost', false, 'sum');
+            $grid.jqGrid('footerData', 'set', {
+                cost: colSum1
+            });
+            var colSum2 = $grid.jqGrid('getCol', 'profit', false, 'sum');
+            $grid.jqGrid('footerData', 'set', {
+                profit: colSum2
+            });
+        },
+        emptyrecords: 'No records',
+        caption: 'List of Stock Items'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: false });
+    $.ajax({
+
+        url: '/Company/GetItemMaster',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serItem').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].itemName + '</option>';
+            }
+            $('#serItem').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetUser',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serCreated').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].username + '</option>';
+            }
+            $('#serCreated').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetCustomer',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serName').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].customerName + '</option>';
+            }
+            $('#serName').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    jQuery("#btnSearch").click(function () {
+        debugger;
+        var serfromdate = $("#serfromdate").val(); 
+        var sertodate = $("#sertodate").val();
+        var serName = $("#serName").val();
+        var serCreated = $("#serCreated").val();
+        var serItem = $("#serItem").val();
+        jQuery("#list-inventorymargin").jqGrid('setGridParam',
+            { url: "/Report/GetMarginReport?serfromdate=" + serfromdate + '&sertodate=' + sertodate + '&serName=' + serName + '&serCreated=' + serCreated + '&serItem=' + serItem, page: 1 })
+            .trigger("reloadGrid");
+    });
+    function addEditLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="/Company/NewItem?id=' + Id + '"  class="fa fas fa-edit"></a>';
+    }
+    $(document).ready(function () {
+        jQuery('.select2').select2();
+        jQuery('.datepicker').datepicker({
+            dateFormat: 'dd/mm/yy'
+        })
+    });
+</script>

@@ -1,0 +1,446 @@
+﻿@{
+    ViewData["Title"] = "Customer Payment";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-2">
+                    From Date <br /><input type="text" class="form-control datepicker" id="serfromdate" />
+                </div>
+                <div class="col-md-2">
+                    To Date<br /> <input type="text" class="form-control datepicker" id="sertodate" />
+                </div>
+               
+                <div class="col-md-2">
+                    Customer <br />
+                    <select id="serCustomer" name="serCustomer" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSavePayment">Pay</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                </div>
+
+            </div>
+            <div class="x_content">
+                <table id="list-customerpay" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-customerpay').jqGrid({
+        url: '/Report/GetCustomerSOA',
+        datatype: 'json',
+        colNames: ['Id', 'Date', 'Order Ref#', 'Invoice No', 'Customer', 'Details', 'Total', 'Due Days', 'Balance', 'Amount Paying', 'RVNo', 'Print'],
+        colModel: [
+            { name: 'id', index: 'id', editable: false, width: 100, key: true, hidden: true },
+            { name: 'salesdate', index: 'salesdate', width: 120, editable: false, formatter: 'date', formatoptions: { srcformat: 'Y/m/d', newformat: 'd-M-Y' } },
+            { name: 'refno', index: 'refno', editable: false, width: 200 },
+            { name: 'invoiceno', index: 'invoiceno', editable: false, width: 200 },
+            { name: 'customerName', index: 'customerName', editable: false, width: 200 },
+            { name: 'details', index: 'details', editable: false, width: 250 },
+            {
+                name: 'total', index: 'total', width: 250, editable: false, align: "right",  formatter: 'number',
+                summaryTpl: "Total : {0}  ",
+                summaryType: "sum"
+            }, 
+            { name: 'due', index: 'due', width: 250, editable: false, 
+            },
+            { name: 'balance', index: 'balance', width: 250, editable: false, align: "right", sorttype: "float",  formatter: 'number',
+            summaryTpl: "Total : {0}  ",
+            summaryType: "sum"
+            },
+            { name: 'amount', index: 'amount', width: 250, align: "right", editoptions: { defaultValue: '0' }, editable: true, sorttype: "float", formatter: "number" },
+            { name: 'rVNo', index: 'rVNo', width: 250, align: "right", editoptions: { defaultValue: '' }, editable: true },
+            { name: 'print', width: 60, formatter: printInvoice }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        subGrid: false,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        onSelectRow: function (id) {
+            jQuery('#list-customerpay').jqGrid('editRow', id, true);
+
+        },
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        rownumbers: true,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true, 
+        footerrow: true,
+        userDataOnFooter: true,
+        grouping: true,
+        gridComplete: function () {
+            var $grid = $('#list-customerpay');
+            $grid.jqGrid('footerData', 'set', {
+                name: "Total"
+            });
+            var colSum = $grid.jqGrid('getCol', 'total', false, 'sum');
+            $grid.jqGrid('footerData', 'set', {
+                total: colSum
+            });
+            var colSum2 = $grid.jqGrid('getCol', 'balance', false, 'sum');
+            $grid.jqGrid('footerData', 'set', {
+                balance: colSum2
+            });
+        },
+        caption: 'List of Customer Statements'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: false },
+    );
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.status == null)
+            return '';
+        switch (rowObject.status) {
+            case 1: return 'New Order';
+            case 2: return 'Order Processed';
+            case 3: return 'Order Picked Up';
+            case 4: return 'Delivered';
+            case 5: return 'Cancelled';
+        }
+    }
+    jQuery("#btnSearch").click(function () {
+        var serfromdate = $("#serfromdate").val();
+        var serCustomer = $("#serCustomer").val();
+        var sertodate = $("#sertodate").val();
+        jQuery("#list-customerpay").jqGrid('setGridParam',
+            {
+                url: "/Report/SearchCustomerSOA?serfromdate=" + serfromdate + '&sertodate=' + sertodate + '&serName=' + serCustomer
+                , page: 1
+            })
+            .trigger("reloadGrid");
+    });
+    function addEditLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="/Purchase/NewOrder?id=' + Id + '"  class="fa fas fa-edit"></a>';
+    }
+
+    function printInvoice(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        if (rowObject.isvat) {
+            return '<a href="javascript:PrintVatInvoice(' + Id + ');" style="color:green" class="fa fas fa-print"></a>';
+        }
+        else
+            return '<a href="javascript:Print(' + Id + '); "  class="fa fas fa-print"></a>';
+
+    }
+    function Print(Id) {
+        var wnd = window.open("", "", "_blank");
+        $.ajax({
+            url: "/Sales/GetSaleDetails?SalesId=" + Id,
+            type: 'GET',
+            success: function (response) {
+                debugger;
+                var html = '<!DOCTYPE html><html lang = "en"><head><meta charset="utf-8"><title></title><link rel="stylesheet" href="/css/Invoicestyle.css" media="all" /></head><body>';
+                var formatted = $.datepicker.formatDate("M d, yy", new Date(response.rows[0].sales.salesdate));
+                var SalesOrderNum = response.rows[0].sales.salesOrder == null ? "" : response.rows[0].sales.salesOrder.refno;
+                html += '<header class="clearfix"><div id="logo"><img src="/logo.png"></div><h1>Invoice</h1><div id="company" class="clearfix"><div>' + response.rows[0].sales.invoiceno + '</div><div>' + SalesOrderNum + '</div><div>' + formatted + '</div><div></div><div></div></div>';
+                var total = 0;
+                html += '<div id="project"><div>' + response.rows[0].sales.customer.customerName + '</div><div>' + response.rows[0].sales.customer.customerAddress + '</div><div>' + response.rows[0].sales.customer.zipcode + ',' + response.rows[0].sales.customer.city.name + '</div><div>' + response.rows[0].sales.customer.license + ',' + response.rows[0].sales.customer.taxNo + '</div><div>' + response.rows[0].sales.customer.supportMail + ',' + response.rows[0].sales.customer.supportNo + '</div>';
+                html += '</header><main><table><thead><tr><th class="desc">ItemName</th><th class="desc">Description</th><th>PRICE</th><th>QTY</th><th>TOTAL</th></tr></thead><tbody>';
+                for (var i = 0; i < response.rows.length; i++) {
+                    html += '<tr><td class="desc">' + response.rows[i].itemMaster.itemName + '</td><td class="desc">' + response.rows[i].comments + '</td><td class="unit">' + response.rows[i].amount + '</td><td class="qty">' + response.rows[i].qty + '</td><td class="total">' + response.rows[i].amount * response.rows[i].qty + '</td></tr>';
+                    total += response.rows[i].amount * response.rows[i].qty;
+                }
+                //html += '<tr><td class="service">Development</td><td class="desc">Developing a Content Management System-based Website</td><td class="unit">$40.00</td><td class="qty">80</td><td class="total">$3,200.00</td></tr>';
+                html += '<tr><tr><td colspan="3" class="grand total">ITEM TOTAL</td><td class="grand total">' + total + '</td></tr>';
+                html += '<tr><td colspan="3" class="grand total">DISCOUNT</td><td class="grand total">' + response.rows[0].sales.discount + '</td></tr>';
+                html += '<tr><td colspan="3" class="grand total">GRAND TOTAL</td><td class="grand total">' + total - response.rows[0].sales.discount + '</td></tr>';
+                html += '</tbody></table><div id="notices"><div>Notes:</div><div class="notice">' + response.rows[0].sales.details + '</div></div></main>';
+                html += '<footer>Invoice was created on a computer and is valid without the signature and seal.</footer></body></html>';
+                wnd.document.write(html);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+    }
+    function PrintVatInvoice(Id) {
+        var wnd = window.open("", "", "_blank");
+        $.ajax({
+            url: "/Sales/GetSaleDetails?SalesId=" + Id,
+            type: 'GET',
+            success: function (response) {
+                debugger;
+                var html = '<!DOCTYPE html><html lang = "en"><head><meta charset="utf-8"><title></title><link rel="stylesheet" href="/css/Invoicestyle.css" media="all" /></head><body>';
+                var formatted = $.datepicker.formatDate("M d, yy", new Date(response.rows[0].sales.salesdate));
+                var SalesOrderNum = response.rows[0].sales.salesOrder == null ? "" : response.rows[0].sales.salesOrder.refno;
+                var lpono = response.rows[0].sales.lpono == null ? "" : response.rows[0].sales.salesOrder.lpono;
+                html += '<header class="clearfix"><img src="/images/InvoiceHeader.jpeg"><h1>TAX Invoice</h1><div id="company" class="clearfix"><div>' + response.rows[0].sales.invoiceno + '</div><div>' + SalesOrderNum + '</div><div>Lpono: ' + lpono + '</div><div>' + formatted + '</div><div>TRN No. 100221926700003</div><div></div><div></div></div>';
+                var total = 0;
+                var vat = 0;
+                html += '<div id="project"><div>' + response.rows[0].sales.customer.customerName + '</div><div>' + response.rows[0].sales.customer.customerAddress + '</div><div>' + response.rows[0].sales.customer.zipcode + ',' + response.rows[0].sales.customer.city.name + '</div><div>' + response.rows[0].sales.customer.license + ',' + response.rows[0].sales.customer.taxNo + '</div><div>' + response.rows[0].sales.customer.supportMail + ',' + response.rows[0].sales.customer.supportNo + '</div>';
+                html += '</header><main><table><thead><tr><th class="desc">ItemName</th><th class="desc">Description</th><th>PRICE</th><th>QTY</th><th>Item Total</th><th>VAT</th><th>Total</th></tr></thead><tbody>';
+                for (var i = 0; i < response.rows.length; i++) {
+                    html += '<tr><td class="desc">' + response.rows[i].itemMaster.itemName + '</td><td class="desc">' + response.rows[i].comments + '</td><td class="unit">' + response.rows[i].amount + '</td><td class="qty">' + response.rows[i].qty + '</td><td class="total">' + response.rows[i].amount * response.rows[i].qty + '</td><td class="total">' + (response.rows[i].amount * response.rows[i].qty) * 0.05 + '</td><td class="total">' + ((response.rows[i].amount * response.rows[i].qty) + (response.rows[i].amount * response.rows[i].qty) * 0.05) + '</td></tr>';
+                    total += response.rows[i].amount * response.rows[i].qty;
+                }
+                vat = (Math.round(total * .05 * 100) / 100);
+                //html += '<tr><td class="service">Development</td><td class="desc">Developing a Content Management System-based Website</td><td class="unit">$40.00</td><td class="qty">80</td><td class="total">$3,200.00</td></tr>';
+                html += '<tr><tr><td colspan="6" class="grand total">Amount</td><td class="grand total">' + total + '</td></tr><tr><td colspan="6">Discount</td><td>' + response.rows[0].sales.discount + '</td></tr><tr><td colspan="6">VAT</td><td>' + vat + '</td></tr><tr><td colspan="6">GRAND TOTAL</td><td>' + (Math.round((total + vat - response.rows[0].sales.discount) * 100) / 100) + '</td></tr>';
+                html += '</tbody></table><div id="notices"><div>Notes:</div><div class="notice">' + response.rows[0].sales.details + '</div></div></main>';
+                //html += '</body></html>';
+                html += '<footer>Invoice was created on a computer and is valid without the signature and seal.<img src="/images/InvoiceFooter.jpeg"></footer></body></html>';
+                wnd.document.write(html);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+    }
+    $.ajax({
+
+        url: '/Company/GetCustomerCategory',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serCategory').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCategory').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetCustomerGroup',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serGroup').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serGroup').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetCity',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serCity').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCity').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+        url: "/Company/GetCustomer",
+        type: 'GET',
+        success: function (response) {
+            BuildCity(response.rows);
+        },
+        error: function (xhr) {
+            alert("Something went wrong, please try again");
+        }
+    });
+    function BuildCity(items) {
+        var divstring = '<option Value="0">Select All</option>';
+        $("#serCustomer").empty();
+        for (var i = 0; i < items.length; i++) {
+            divstring += '<option Value="' + items[i].id + '">' + items[i].customerName + '</option>';
+        }
+        $("#serCustomer").append(divstring);
+        $("#serCustomer").val(230).trigger("chosen:updated");
+
+    }
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    $(document).on("click", "#btnSavePayment", function () {
+        debugger;
+        var Salespaiddetails = [];
+        var gridID = "list-customerpay";
+        var grid = $('#' + gridID);
+        var rowIDList = grid.getDataIDs();
+        var row = grid.getRowData(rowIDList[0]);
+
+        for (var j = 0; j < rowIDList.length; j++) {
+            row = grid.getRowData(rowIDList[j]); // Get Each Row
+            if (row.amount != 0) {
+                debugger;
+                var amount = parseFloat(row.amount);
+                var balance = parseFloat(row.balance);
+                if (balance < amount && amount > 0) {
+                    toastr.error("Enter correct Amount", "Customer Payment", 'bg-error');
+                    grid.jqGrid('setSelection', row.id);
+                    return false;
+                }
+                if (balance > amount && amount < 0) {
+                    toastr.error("Enter correct Amount", "Customer Payment", 'bg-error');
+                    grid.jqGrid('setSelection', row.id);
+                    return false;
+                }
+                if (balance < 0 && amount > 0) {
+                    toastr.error('Enter Negative Amount', "Customer Payment", 'bg-error');
+                    grid.jqGrid('setSelection', row.id);
+                    return false;
+                }
+                if (row.rVNo == '') {
+                    toastr.error("Enter RV number", "Customer Payment", 'bg-error');
+                    //alert('Enter Positive Amount');
+                    grid.jqGrid('setSelection', row.id);
+                    return false;
+                }
+                if (balance > 0 && amount < 0) {
+                    //alert('Enter Positive Amount');
+                    toastr.error('Enter Positive Amount', "Customer Payment", 'bg-error');
+                    grid.jqGrid('setSelection', row.id);
+                    return false;
+                }
+                Salespaiddetails.push({
+                    SalesId: row.id,
+                    amount: row.amount,
+                    details: row.rVNo
+                });
+            }
+        }
+        debugger;
+        $.ajax({
+            url: "/Sales/Savesalespaiddetail",
+            type: 'POST',
+            data: { Salespaiddetails: Salespaiddetails },
+            success: function (response) {
+                debugger;
+                for (var i = 0; i < response.vouchers.length; i++)
+                    toastr.success(response.vouchers[i]);
+                var serfromdate = $("#serfromdate").val();
+                var serCustomer = $("#serCustomer").val();
+                var sertodate = $("#sertodate").val();
+                jQuery("#list-customerpay").jqGrid('setGridParam',
+                    {
+                        url: "/Report/SearchCustomerSOA?serfromdate=" + serfromdate + '&sertodate=' + sertodate + '&serName=' + serCustomer
+                        , page: 1
+                    })
+                    .trigger("reloadGrid");
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+    });
+    $("#btnExport").on("click", function () {
+        createExcelFromGrid("list-customerpay", "customerpay")
+    })
+    var createExcelFromGrid = function (gridID, filename) {
+        var grid = $('#' + gridID);
+        var rowIDList = grid.getDataIDs();
+        var row = grid.getRowData(rowIDList[0]);
+        var colNames = [];
+        var i = 0;
+        var html = '<table border="1px"><tr>';
+        for (var cName in row) {
+            if (cName == "id" || cName == "Amount Paying") {
+            }
+            else {
+                colNames[i++] = cName;
+                html += '<th>' + cName + '</th>';
+                //switch (cName) {
+                //    //case "name": html += '<th>Name</th>';
+                //    //    break;
+                //    //case "smallunit": html += '<th>Unit</th>';
+                //    //    break;
+                //    //case "roe": html += '<th>ROE</th>';
+                //    //    break;
+
+                //}
+            }// Capture Column Names
+        }
+        html += '</tr>';
+        for (var j = 0; j < rowIDList.length; j++) {
+            row = grid.getRowData(rowIDList[j]); // Get Each Row
+            html += '<tr>';
+            for (var i = 0; i < colNames.length; i++) {
+                html += '<td bgcolor="#D0D3D4 ">' + row[colNames[i]] + '</td>'; // Create a CSV delimited with ;
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        var a = document.createElement('a');
+        a.id = 'ExcelDL';
+        a.href = 'data:application/vnd.ms-excel,' + escape(html);
+        a.download = filename ? filename + ".xls" : 'DataList.xls';
+        document.body.appendChild(a);
+        a.click(); // Downloads the excel document
+        document.getElementById('ExcelDL').remove();
+    }
+</script>

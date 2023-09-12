@@ -1,0 +1,127 @@
+﻿@{
+	ViewData["Title"] = "Country Master";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<div class="col-md-6">
+					Country Name <br /><input type="text" class="form-control"  id="serCountry" />
+				</div>								
+				<div class="col-md-6">
+					<br />					
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+					<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+				</div>
+			</div>
+			<div class="box-body">
+				<table id="list-country" style="color:black !important" class="table table-dark"></table>
+				<div id="pager"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('#list-country').jqGrid({
+		url: '/Admin/GetCountry',
+		datatype: 'json',
+		colNames: ['Id', 'Country', 'Status'],
+		colModel: [
+			{
+				name: 'id', index: 'Id', editable: false, width: 100, key: true,hidden: true },
+			{ name: 'countryName', index: 'CountryName', editable: true, width: 300, editrules: { required: true } },
+			{ name: 'status', index: 'Status', editable: false, width: 240, hidden: true }			
+
+		],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "total",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        rownumbers: true,
+        scroll: 1,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+		grouping: true,
+		caption: 'List of Countries'		
+	}).navGrid('#pager', { edit: true, add: true, del: true, search: true, refresh: false, closeAfterSearch: true  },
+		{
+			zIndex: 100,
+			url: '/Admin/EditCountry',
+			closeOnEscape: true,
+			closeAfterEdit: true,
+			recreateForm: true,
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		},
+		{
+			
+			url: "/Admin/CreateCountry",
+			closeOnEscape: true,
+			closeAfterAdd: true,
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		},
+		{
+			zIndex: 100,
+			url: "/Student/Delete",
+			closeOnEscape: true,
+			closeAfterDelete: true,
+			recreateForm: true,
+			msg: "Are you sure you want to delete Student... ? ",
+			afterComplete: function (response) {
+				if (response.responseText) {
+					alert(response.responseText);
+				}
+			}
+		});  
+	jQuery("#btnSearch").click(function () {
+        var serCountry = $("#serCountry").val();        
+        jQuery("#list-country").jqGrid('setGridParam',
+            { url: "/Admin/SearchCountry?serCountry=" + serCountry, page: 1 })
+            .trigger("reloadGrid");
+
+
+    });
+</script>

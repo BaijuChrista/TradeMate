@@ -1,0 +1,55 @@
+USE [TradeMate]
+GO
+/****** Object:  Trigger [dbo].[TradeMate_UpdateReciptLedger]    Script Date: 11/4/2019 5:22:52 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:           <Author,,Baiju>
+-- Create date: <Create Date,,>
+-- Description:      <Description,,>
+-- =============================================
+ALTER TRIGGER [dbo].[TradeMate_UpdateReciptLedger] 
+   ON  [dbo].[Receipt]
+   AFTER INSERT
+AS 
+BEGIN
+       -- SET NOCOUNT ON added to prevent extra result sets from
+       -- interfering with SELECT statements.
+       SET NOCOUNT ON;
+update [dbo].[receipt] set transno= 'RV'+ convert(char(4), i.CreatedDate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4)
+from inserted i 
+join [dbo].[Receipt] so on i.id=so.Id
+    -- Insert statements for trigger here
+       insert into [dbo].[ledgertxn]
+      ([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+select CreatedUserId,ModifiedUserId,CreatedDate,ModifiedDate,IpAddress,1,ledgerId,CreatedDate,0,amount,narration,'RV'+ convert(char(4), CreatedDate, 12)+RIGHT('0000'+CAST(Id AS VARCHAR(4)),4) from inserted
+
+insert into [dbo].[ledgertxn]
+      ([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+select i.CreatedUserId,i.ModifiedUserId,i.CreatedDate,i.ModifiedDate,i.IpAddress,1,21,i.CreatedDate,i.amount,0,i.narration,'RV'+ convert(char(4), i.CreatedDate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4) 
+from inserted i
+END

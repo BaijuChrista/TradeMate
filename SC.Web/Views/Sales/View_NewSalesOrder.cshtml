@@ -1,0 +1,463 @@
+﻿@model SC.Data.SalesOrder
+@{
+    ViewData["Title"] = "Sales order";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Table with Add and Delete Row Feature</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/Chosen.js"></script>
+    <script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <link href="~/css/Chosen.css" rel="stylesheet" />
+    <link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+    <link href="~/css/itemTable.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $(".chzn-select").chosen();
+            });
+
+            var divstring = '<option>Select Item</option>';
+            $.ajax({
+                url: "/Company/GetItemMaster",
+                type: 'GET',
+                sync: 'false',
+                success: function (response1) {
+                    debugger;
+                    for (var i = 0; i < response1.rows.length; i++) {
+                        divstring += '<option data-value="' + response1.rows[i].id + '" data-price="' + response1.rows[i].price + '">' + response1.rows[i].itemName + '</option>';
+                    }
+
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+            //var edit = '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>';
+            var actions = '<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
+            // Append table with add row form on add new button click
+            $(".add-new").click(function () {
+                $(this).attr("disabled", "disabled");
+                var index = $("table tbody tr:last-child").index();
+
+
+                var row = '<tr>' +
+                    '<td><select class="form-control select2" name="ItemsId" id="ItemsId">' + divstring + '</select><input type="hidden" class="form-control" name="ItemsMasterId" id="ItemsMasterId"></td>' +
+                    //'<td><select class="form-control" name="ItemsId" id="ItemsId"></select><input type="hidden" class="form-control" name="ItemsMasterId" id="ItemsMasterId"></td>' +
+                    '<td><input type="text" class="form-control" name="itemcomments"  id="itemcomments">' +
+                    '<td><input type="text" class="form-control" name="qty"  id="qty"></td>' +
+                    '<td><input type="text" class="form-control" name="itemprice"  id="itemprice"></td>' +
+                    '<td><input type="text" disabled="disabled" class="form-control" name="itemTotal"  id="itemTotal">' +
+                    '<td>' + actions + '</td>' +
+                    '</tr>';
+                $("table").append(row);
+                $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+                $('[data-toggle="tooltip"]').tooltip();
+                $(function () {
+                    //$(".chzn-select").chosen();
+                    jQuery('.select2').select2()
+                });
+            });
+            // Add row on add button click
+            $(document).on("click", ".add", function () {
+                var empty = false;
+                var input = $(this).parents("tr").find('input[type="text"]');
+                input.each(function () {
+                    debugger;
+                    if (!$(this).val()) {
+                        $(this).addClass("error");
+                        empty = true;
+                    } else {
+                        $(this).removeClass("error");
+                    }
+                });
+                $(this).parents("tr").find(".error").first().focus();
+
+                input.each(function () {
+                    $(this).parent("td").html($(this).val());
+                });
+                var i = 1;
+                var t = document.getElementById('tblItemDetails');
+                var amount = 0
+                $("#tblItemDetails tr").each(function () {
+                    debugger;
+                    if ($("#tblItemDetails tr").length > i) {
+                        amount += parseFloat($(t.rows[i].cells[4]).text());
+                    }
+                    i++;
+                    $('#txtAmount').val(amount);
+                    var Discount = parseFloat($('#Discount').val());
+                    $('#Total').val(amount - Discount);
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").removeAttr("disabled");
+
+            });
+            $(document).on("keypress", '#itemprice', function (e) {
+                if (e.keyCode == 13) {
+                    debugger;
+                    var empty = false;
+                    var input = $(this).parents("tr").find('input[type="text"]');
+                    input.each(function () {
+                        debugger;
+                        if (!$(this).val()) {
+                            $(this).addClass("error");
+                            empty = true;
+                        } else {
+                            $(this).removeClass("error");
+                        }
+                        $(this).prop('disabled', true)
+                    });
+                    $(this).parents("tr").find("#ItemsId").prop('disabled', true).trigger("chosen:updated");
+                    $(this).parents("tr").find(".error").first().focus();
+
+                    input.each(function () {
+                        $(this).parent("td").html($(this).val());
+                    });
+                    var i = 1;
+                    var t = document.getElementById('tblItemDetails');
+                    var amount = 0
+                    $("#tblItemDetails tr").each(function () {
+                        debugger;
+                        if ($("#tblItemDetails tr").length > i) {
+                            amount += parseFloat($(t.rows[i].cells[4]).text());
+                        }
+                        i++;
+                        $('#txtAmount').val(amount);
+                        var Discount = parseFloat($('#Discount').val());
+                        $('#Total').val(amount - Discount);
+                    });
+                    //$('#ItemsId').prop('disabled', true).trigger("chosen:updated");
+                    $(this).parents("tr").find(".add, .edit").toggle();
+                    $(".add-new").removeAttr("disabled");
+                    $(this).attr("disabled", "disabled");
+                    var index = $("table tbody tr:last-child").index();
+                    var row = '<tr>' +
+                        '<td><select class="form-control select2" name="ItemsId" id="ItemsId">' + divstring + '</select><input type="hidden" class="form-control" name="ItemsMasterId" id="ItemsMasterId"></td>' +
+                        //'<td><select class="form-control" name="ItemsId" id="ItemsId"></select><input type="hidden" class="form-control" name="ItemsMasterId" id="ItemsMasterId"></td>' +
+                        '<td><input type="text" class="form-control" name="itemcomments"  id="itemcomments">' +
+                        '<td><input type="text" class="form-control"  name="qty" id="qty"></td>' +
+                        '<td><input type="text" class="form-control"  name="itemprice" id="itemprice"></td>' +
+                        '<td><input type="text" disabled="disabled"  class="form-control" name="itemTotal" id="itemTotal">' +
+                        '<td>' + actions + '</td>' +
+                        '</tr>';
+                    $("table").append(row);
+                    //$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $(function () {
+                        //$(".chzn-select").chosen();
+                        jQuery('.select2').select2()
+                    });
+                }
+            });
+            // Edit row on edit button click
+            $(document).on("click", ".edit", function () {
+                $(this).parents("tr").find("td:not(:last-child)").each(function () {
+                    $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").attr("disabled", "disabled");
+            });
+            // Delete row on delete button click
+
+            $(document).on("change", ".amount", function () {
+                var amount = parseFloat($('#txtAmount').val());
+                var Discount = parseFloat($('#Discount').val());
+                $('#Total').val(amount - Discount);
+            });
+            $(document).on("click", ".delete", function () {
+                $(this).parents("tr").remove();
+                $(".add-new").removeAttr("disabled");
+                var i = 1;
+                var t = document.getElementById('tblItemDetails');
+                var amount = 0
+                $("#tblItemDetails tr").each(function () {
+                    debugger;
+                    if ($("#tblItemDetails tr").length > i) {
+                        amount += parseFloat($(t.rows[i].cells[4]).text());
+                    }
+                    i++;
+                });
+                $('#txtAmount').val(amount);
+                var Discount = parseFloat($('#Discount').val());
+                var vat = parseFloat($('#ddltaxId').val());
+                $('#txtVat').val((vat * amount) / 100);
+                $('#Total').val(amount - Discount);
+            });
+            $(document).on("change", "#ItemsId", function () {
+                var price = $(this).find(':selected').data('price');
+                var row = $(this).closest('tr');
+                row.find('#itemprice').val(price);
+                row.find('#itemTotal').val(price);
+                row.find('#ItemsMasterId').val($(this).find(':selected').data('value'));
+
+                $('#qty').val(1);
+            });
+            $(document).on("change", "#qty", function () {
+                var row = $(this).closest('tr');
+                var price = row.find('#itemprice').val();
+                row.find('#itemTotal').val(price * $('#qty').val());
+            });
+            $(document).on("change", "#itemprice", function () {
+                var row = $(this).closest('tr');
+                var price = row.find('#itemprice').val();
+                row.find('#itemTotal').val(price * $('#qty').val());
+            });
+            $(document).on("change", "#CustomerId", function () {
+                $('#txtCreditAmount').val($(this).find(':selected').data('credit'));
+                $('#txtDueAmount').val($(this).find(':selected').data('due'));
+                var CustomerId = $('#CustomerId').val();
+                //$.ajax({
+                //    url: "/Report/CheckLimit",
+                //    type: 'GET',
+                //    data: { CustomerId: CustomerId},
+                //    success: function (response) {
+                //        if (response != "Success") {
+                //            $('#CustomerId').val(0).trigger("chosen:updated");
+                //            toastr.error(response);
+                //        }
+                //    },
+                //    error: function (xhr) {
+                //        alert("Something went wrong, please try again");
+                //    }
+                //});
+
+            });
+            $.ajax({
+                url: "/Sales/GetSalesOrderDetails?SalesOrderId=" + $("#Id").val(),
+                type: 'GET',
+                success: function (response) {
+                    BuildItemDetails(response.rows);
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+
+            function BuildItemDetails(items) {
+                if (items.length > 1) {
+                    $("#CustomerId").val(items[0].salesOrder.customerId);
+                    $("#CustomerId").trigger("chosen:updated");
+                }
+                debugger;
+                var divstring = '<thead><tr><th style="width:30%">Name</th><th style="width:20%">Comments</th><th style="width:13%">Quantity</th><th style="width:16%">Price</th></th><th style="width:16%">Total</th><th style="width:5%">Actions</th></tr></thead><tbody>';
+                $("#tblItemDetails").empty();
+                for (var i = 0; i < items.length; i++) {
+                    divstring += '<tr><td id="name">' + items[i].itemMaster.itemName + '<input type="hidden" value="' + items[i].itemMasterId + '" name="ItemsMasterId" id="ItemsMasterId"></td><td id="itemcomments">' + items[i].comments + '</td><td id="quantity">' + items[i].qty + '</td></td><td id="itemprice">' + items[i].amount + '</td><td id="itemtotal">' + items[i].amount * items[i].qty + '</td>'
+                    divstring += '<td><a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>';
+                    divstring += '<a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td></tr>';
+                }
+                divstring += '</tbody>';
+                $("#tblItemDetails").append(divstring);
+            }
+
+        });
+        $.ajax({
+            url: "/Company/GetCustomer",
+            type: 'GET',
+            success: function (response) {
+                BuildCity(response.rows);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        function BuildCity(items) {
+            var divstring = '<option Value="0">Select Customer</option>';
+            $("#CustomerId").empty();
+            for (var i = 0; i < items.length; i++) {
+                divstring += '<option Value="' + items[i].id + '" data-credit="' + items[i].creditlimit + '" data-due="' + items[i].creditlimit + '">' + items[i].customerName + '</option>';
+            }
+            $("#CustomerId").append(divstring);
+            $("#CustomerId").trigger("chosen:updated");
+
+        }
+        $(document).on("click", "#btnSaveOrder", function () {
+            if ($('#CustomerId').val() == 0) {
+                alert("Select Customer");
+                return false;
+            }
+            debugger;
+
+            var SalesOrderDetail = [];
+            var SalesOrder = {
+                CustomerId: $('#CustomerId').val(),
+                refno: $('#refno').val(),
+                lpono: $('#lpono').val(),
+                orderdate: $('#orderdate').val(),
+                details: $('#details').val(),
+                Total: $('#Total').val(),
+                Id: $('#Id').val(),
+                Delivery: $('#Delivery').val(),
+                ContactNumber: $('#ContactNumber').val(),
+                ContactName: $('#ContactName').val(),
+                Discount: parseFloat($('#Discount').val())
+            };
+            var i = 1;
+            var isSave = false;
+            if ($("#tblItemDetails tr").length > i) {
+                isSave = true;
+            }
+            if (!isSave) {
+                alert("Please add atleast one Item");
+                return false;
+            }
+            $.ajax({
+                url: "/Sales/SaveSalesOrder",
+                type: 'POST',
+                data: { SalesOrder: SalesOrder },
+                success: function (response) {
+                    if (response.id > 0) {
+                        var t = document.getElementById('tblItemDetails');
+                        $("#tblItemDetails tr").each(function () {
+                            if ($("#tblItemDetails tr").length > i) {
+                                SalesOrderDetail.push({
+                                    SalesOrderId: response.id,
+                                    ItemMasterId: Number($(t.rows[i]).find('#ItemsMasterId').val()),
+                                    qty: $(t.rows[i].cells[2]).text(),
+                                    amount: $(t.rows[i].cells[3]).text(),
+                                    comments: $(t.rows[i].cells[1]).text(),
+                                });
+                            }
+                            i++;
+                        });
+                        debugger;
+                        $.ajax({
+                            url: "/Sales/SaveSalesOrderDetail",
+                            type: 'POST',
+                            data: { SalesOrderDetail: SalesOrderDetail },
+                            success: function (response) {
+                                window.location.href = '/Sales/SalesOrderLoad';
+                            },
+                            error: function (xhr) {
+                                alert("Something went wrong, please try again");
+                            }
+                        });
+                    }
+                    //alert(response.id);
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        });
+        //$('.datepicker').datepicker({
+        //    dateFormat: 'dd/mm/yy',
+        //    showAnim: "fold"
+        //})
+    </script>
+</head>
+<body>
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Order</h1>
+                    <button type="button" id="btnSaveOrder" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+
+
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Customer</label>
+                        <select asp-for="CustomerId" class="form-control chzn-select" required></select>
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">SupportNo</label>
+                        <input asp-for="refno" class="form-control" disabled />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Lpono</label>
+                        <input asp-for="lpono" class="form-control" />
+                    </div>
+                    
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Credit</label>
+                        <input type="text" class="form-control" id="txtCreditAmount" disabled="disabled" value="0" />
+
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Due Amount</label>
+                        <input type="text" class="form-control amount" id="txtDueAmount" disabled="disabled" value="0" />
+
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Oreder Date</label>
+                        @Html.TextBoxFor(Model => Model.orderdate, "{0: dd/MM/yyyy}", new { @class = "form-control datepicker", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">ContactName</label>
+                        <input asp-for="ContactName" class="form-control" />
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">ContactNumber</label>
+                        <input asp-for="ContactNumber" class="form-control" />
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Delivery Time</label>
+                        @*<input type="datetime-local" id="birthdaytime" name="birthdaytime">*@
+
+                        <input asp-for="Delivery" type="datetime-local" class="form-control" />
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        @Html.TextAreaFor(Model => Model.details, new { @class = "form-control", @required = "required" })
+
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Amount</label>
+                        <input type="text" class="form-control amount" id="txtAmount" disabled="disabled" value="0" />
+
+                    </div>
+                    <div class="form-group col-lg-2">
+
+                        <label for="exampleInputEmail1">Discount</label>
+                        <input type="text" asp-for="Discount" class="form-control amount" value="0" />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Total</label>
+                        <input type="text" asp-for="Total" disabled="disabled" class="form-control amount" />
+
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8"><h2>Item <b>Details</b></h2></div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add Item</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered" id="tblItemDetails"></table>
+    </div>
+</body>
+</html>
+<script src="~/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+<script>
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        showAnim: "fold"
+    })
+    
+</script>

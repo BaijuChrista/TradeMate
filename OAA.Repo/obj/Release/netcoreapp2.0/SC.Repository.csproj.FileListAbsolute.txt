@@ -1,0 +1,60 @@
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.deps.json
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csprojAssemblyReference.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CoreCompileInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfoInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfo.cs
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CopyComplete
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.deps.json
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.pdb
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csprojAssemblyReference.cache
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CoreCompileInputs.cache
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfoInputs.cache
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfo.cs
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CopyComplete
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.dll
+C:\Users\r.kumaran\Google Drive\Personal Projects\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.deps.json
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.pdb
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csprojAssemblyReference.cache
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CoreCompileInputs.cache
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfoInputs.cache
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfo.cs
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CopyComplete
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.dll
+C:\Working\Accounting\12December2019Ansar\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.deps.json
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.pdb
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csprojAssemblyReference.cache
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CoreCompileInputs.cache
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfoInputs.cache
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfo.cs
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CopyComplete
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.dll
+D:\Projects\Personal Projects\Route Mapper\Route Mapper\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.deps.json
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Repository.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\bin\Release\netcoreapp2.0\SC.Data.pdb
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csprojAssemblyReference.cache
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfoInputs.cache
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.AssemblyInfo.cs
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CoreCompileInputs.cache
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.csproj.CopyComplete
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.dll
+C:\Working\WorkFromHome\RouteMapper\OAA.Repo\obj\Release\netcoreapp2.0\SC.Repository.pdb

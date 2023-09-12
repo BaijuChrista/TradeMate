@@ -1,0 +1,561 @@
+﻿@model SC.Data.Customer
+@{
+    ViewData["Title"] = "New Customer Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Table with Add and Delete Row Feature</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/Chosen.js"></script>
+    <script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <link href="~/css/Chosen.css" rel="stylesheet" />
+    <link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+    <link href="~/css/itemTable.css" rel="stylesheet" />
+    <style>
+        #map {
+            height: 350px;
+            width: 350px;
+            display: block;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Customer Registration</h1>
+                    <button type="button" id="btnSaveOrder" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">code</label>
+                        <input asp-for="code" class="form-control" disabled="disabled" />
+                        @*@Html.TextBoxFor(Model => Model.code, new { @class = "form-control", @required = "required" })*@
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">CustomerName</label>
+                        @Html.TextBoxFor(Model => Model.CustomerName, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">shortname</label>
+                        @Html.TextBoxFor(Model => Model.shortname, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">CustomerAddress</label>
+                        @Html.TextBoxFor(Model => Model.CustomerAddress, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Zipcode</label>
+                        @Html.TextBoxFor(Model => Model.Zipcode, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">City</label>
+                        <select asp-for="CityId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Category</label>
+                        <select asp-for="customercategoryId" class="form-control select2"></select>
+                    </div>
+
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Customer Group</label>
+                        <select asp-for="customergroupId" class="form-control select2"></select>
+
+                        @*@Html.DropDownListFor(Model => Model.customergroupId, new List<SelectListItem>(), new { @class = "form-control", @required = "required" })*@
+
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Currency</label>
+                        <select asp-for="CurrencyId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Credit Limit</label>
+                        @Html.TextBoxFor(Model => Model.creditlimit, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Credit Days</label>
+                        @Html.TextBoxFor(Model => Model.creditdays, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Suppor tMail</label>
+                        @Html.TextBoxFor(Model => Model.SupportMail, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">License</label>
+                        @Html.TextBoxFor(Model => Model.License, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Support No</label>
+                        @Html.TextBoxFor(Model => Model.SupportNo, new { @class = "form-control", @required = "required" })
+                    </div>
+
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Started Date</label>
+                        @Html.TextBoxFor(Model => Model.StartedIn, "{0: dd/MM/yyyy}", new { @class = "form-control datepicker", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">TaxNo</label>
+                        @Html.TextBoxFor(Model => Model.TaxNo, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Otherreg</label>
+                        @Html.TextBoxFor(Model => Model.Otherreg, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Opening Balance Dr</label>
+                        @Html.TextBoxFor(Model => Model.dr, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Opening Balance Cr</label>
+                        @Html.TextBoxFor(Model => Model.cr, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        @Html.TextAreaFor(Model => Model.Details, new { @class = "form-control", @required = "required" })
+
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="exampleInputEmail1">AssignedUser</label>
+                        <select id="AssignedUserId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="exampleInputEmail1">AssignedDay</label>
+                        <select id="assignedDay" class="form-control select2">
+                            <option value="0">Sunday</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <div id="floating-panel">
+                            <input id="address" type="text" value="">
+                            <input id="Mapsubmit" type="button" value="GetCurrent">
+                        </div>
+                        <div id="map"></div>
+
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+                @Html.HiddenFor(Model => Model.Lattitude)
+                @Html.HiddenFor(Model => Model.Longitude)
+                @Html.HiddenFor(Model => Model.partnerId)
+
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8"><h2>Customer <b>Contacts</b></h2></div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add Contact</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered" id="tblItemDetails"></table>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $(".chzn-select").chosen();
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        //var edit = '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>';
+        var actions = '<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a><a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
+        // Append table with add row form on add new button click
+        $(".add-new").click(function () {
+            $(this).attr("disabled", "disabled");
+            var index = $("table tbody tr:last-child").index();
+            var row = '<tr>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td>' + actions + '</td>' +
+                '</tr>';
+            $("table").append(row);
+            $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+            $('[data-toggle="tooltip"]').tooltip();
+            $(function () {
+                //$(".chzn-select").chosen();
+            });
+        });
+        // Add row on add button click
+        $(document).on("click", ".add", function () {
+            var empty = false;
+            var input = $(this).parents("tr").find('input[type="text"]');
+            input.each(function () {
+                debugger;
+                if (!$(this).val()) {
+                    $(this).addClass("error");
+                    empty = true;
+                } else {
+                    $(this).removeClass("error");
+                }
+            });
+            $(this).parents("tr").find(".error").first().focus();
+            if (empty)
+                return false;
+            input.each(function () {
+                $(this).parent("td").html($(this).val());
+            });
+            $(this).parents("tr").find(".add, .edit").toggle();
+            $(".add-new").removeAttr("disabled");
+
+        });
+
+        // Edit row on edit button click
+        $(document).on("click", ".edit", function () {
+            $(this).parents("tr").find("td:not(:last-child)").each(function () {
+                $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+            });
+            $(this).parents("tr").find(".add, .edit").toggle();
+            $(".add-new").attr("disabled", "disabled");
+        });
+        // Delete row on delete button click
+        $(document).on("click", ".delete", function () {
+            $(this).parents("tr").remove();
+            $(".add-new").removeAttr("disabled");
+        });
+        $.ajax({
+            url: "/Company/GetCustomerContact?id=" + $("#Id").val(),
+            type: 'GET',
+            success: function (response) {
+                BuildItemDetails(response.rows);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+        function BuildItemDetails(items) {
+            var divstring = '<thead><tr><th>Name</th><th>Number</th><th>Mail</th><th>Notes</th></th><th>Actions</th></tr></thead><tbody>';
+            $("#tblItemDetails").empty();
+            for (var i = 0; i < items.length; i++) {
+                divstring += '<tr><td>' + items[i].name + '</td><td>' + items[i].number + '</td><td>' + items[i].mail + '</td><td>' + items[i].notes + '</td>'
+                divstring += '<td><a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>';
+                divstring += '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td></tr>';
+            }
+            divstring += '</tbody>';
+            $("#tblItemDetails").append(divstring);
+        }
+
+
+        $.ajax({
+            url: "/Admin/GetCity",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                for (var i = 0; i < response.rows.length; i++) {
+                    divstring += '<option value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#CityId").append(divstring);
+                $("#CityId").trigger("chosen:updated");
+                $("#CityId").val('@Model.CityId');
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        $.ajax({
+            url: "/Company/GetCurrency",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                for (var i = 0; i < response.rows.length; i++) {
+                    divstring += '<option value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#CurrencyId").append(divstring);
+                $("#CurrencyId").trigger("chosen:updated");
+                $("#CurrencyId").val('@Model.CurrencyId');
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+        $.ajax({
+            url: "/Company/GetCustomerCategory",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                for (var i = 0; i < response.rows.length; i++) {
+                    divstring += '<option value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#customercategoryId").append(divstring);
+                $("#customercategoryId").trigger("chosen:updated");
+                $("#customercategoryId").val('@Model.customercategoryId');
+
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        $.ajax({
+            url: "/Company/GetCustomerGroup",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                for (var i = 0; i < response.rows.length; i++) {
+                    debugger;
+                    divstring += '<option value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#customergroupId").append(divstring);
+                $("#customergroupId").val('@Model.customergroupId');
+
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        $.ajax({
+            url: "/Login/GetApplicationUser",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                for (var i = 0; i < response.rows.length; i++) {
+                    debugger;
+                    divstring += '<option value="' + response.rows[i].id + '">' + response.rows[i].username + '</option>';
+                }
+                $("#AssignedUserId").append(divstring);
+
+
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+    });
+
+    
+
+
+    $(document).on("click", "#btnSaveOrder", function () {
+        var CustomerContact = [];
+        var Customer = {
+            code: $('#code').val(),
+            CustomerName: $('#CustomerName').val(),
+            shortname: $('#shortname').val(),
+            CustomerAddress: $('#CustomerAddress').val(),
+            Zipcode: $('#Zipcode').val(),
+            CityId: $('#CityId').val(),
+            CurrencyId: $('#CurrencyId').val(),
+            customercategoryId: $('#customercategoryId').val(),
+            customergroupId: $('#customergroupId').val(),
+            SupportMail: $('#SupportMail').val(),
+            SupportNo: $('#SupportNo').val(),
+            creditlimit: $('#creditlimit').val(),
+            creditdays: $('#creditdays').val(),
+            License: $('#License').val(),
+            StartedIn: $('#StartedIn').val(),
+            TaxNo: $('#TaxNo').val(),
+            Otherreg: $('#Otherreg').val(),
+            Details: $('#Details').val(),
+            partnerId: $('#partnerId').val(),
+            Lattitude: $('#Lattitude').val(),
+            Longitude: $('#Longitude').val(),
+            Id: $('#Id').val(),
+            dr: $('#dr').val(),
+            cr: $('#cr').val()
+        };
+
+        $.ajax({
+            url: "/Company/SaveCustomerr",
+            type: 'POST',
+            data: { Customer: Customer },
+            success: function (response) {
+                if (response.id > 0) {
+                    var i = 1;
+                    var t = document.getElementById('tblItemDetails');
+                    $("#tblItemDetails tr").each(function () {
+                        debugger;
+                        if ($("#tblItemDetails tr").length > i) {
+                            debugger;
+                            CustomerContact.push({
+                                CustomerId: response.id,
+                                name: $(t.rows[i].cells[0]).text(),
+                                number: $(t.rows[i].cells[1]).text(),
+                                mail: $(t.rows[i].cells[2]).text(),
+                                notes: $(t.rows[i].cells[3]).text()
+                            });
+                        }
+                        i++;
+                    });
+                    debugger;
+                    $.ajax({
+                        url: "/Company/SaveCustomerrContact",
+                        type: 'POST',
+                        data: { CustomerContact: CustomerContact },
+                        success: function (response) {
+                            window.location.href = '/Company/CustomerListLoad';
+                        },
+                        error: function (xhr) {
+                            alert("Something went wrong, please try again");
+                        }
+                    });
+                    var CustomerUserAssign = {
+                        assignedDay: $('#assignedDay').val(),
+                        AssignedUserId: $('#AssignedUserId').val(),
+                        CustomerId: response.id
+                    }
+                    $.ajax({
+                        url: "/Company/SaveCustomerUserAssign",
+                        type: 'POST',
+                        data: { CustomerUserAssign: CustomerUserAssign },
+                        success: function (response) {
+                            window.location.href = '/Company/CustomerListLoad';
+                        },
+                        error: function (xhr) {
+                            alert("Something went wrong, please try again");
+                        }
+                    });
+
+                }
+                //alert(response.id);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+    });
+    //$('.datepicker').datepicker({
+    //    dateFormat: 'dd/mm/yy',
+    //    showAnim: "fold"
+    //})
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        showAnim: "fold"
+    });
+    $(document).ready(function () {
+        jQuery('.select2').select2();
+        var id = $('#Id').val();
+        debugger;
+        if (id > 0) {
+            $.ajax({
+                url: "/Report/GetCustomerAssigned?Id=" + id,
+                type: 'GET',
+                success: function (response) {
+                    debugger;
+                    if (response.customerId > 0) {
+                        $("#AssignedUserId").val(response.customerId).trigger('change');
+                        $("#assignedDay").val(response.assignedDay).trigger('change');
+                    }
+
+
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+
+
+        }
+    });
+    var map, infoWindow;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: { lat: 24.4644789, lng: 54.3651206 }
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('Mapsubmit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            $("#Lattitude").val(event.latLng.lat());
+            $("#Longitude").val(event.latLng.lng());
+            geocoder.geocode({
+                'latLng': event.latLng
+            }, function (results, status) {
+                if (status ==
+                    google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        $("#CustomerAddress").val(results[1].formatted_address);
+                        alert("Location Picked");
+
+                    } else {
+                        alert('No results found');
+                    }
+                } else {
+                    alert('Geocoder failed due to: ' + status);
+                }
+            });
+        });
+        infoWindow = new google.maps.InfoWindow;
+        function geocodeAddress(geocoder, resultsMap) {
+            debugger;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    debugger;
+                    $("#Lattitude").val(position.coords.latitude);
+                    $("#Longitude").val(position.coords.longitude);
+                    $("#CustomerAddress").val(position.formatted_address);
+                    alert("Location Picked");
+
+                });
+            }
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+
+    function resizeChosen() {
+        $(".chosen-container").each(function () {
+            $(this).attr('style', 'width: 100%');
+            //$(this).attr('style', 'height: 200%');
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ_WzHFJGtNughETwVqmHBvnl-wKZmFnk&callback=initMap" async defer></script>

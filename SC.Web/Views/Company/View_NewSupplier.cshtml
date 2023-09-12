@@ -1,0 +1,493 @@
+﻿@model SC.Data.Supplier
+@{
+    ViewData["Title"] = "New Supplier Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Table with Add and Delete Row Feature</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/Chosen.js"></script>
+    <script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <link href="~/css/Chosen.css" rel="stylesheet" />
+    <link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <style>
+        #map {
+            height: 350px;
+            width: 350px;
+            display: block;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+    </style>
+    <link href="~/css/itemTable.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                //$(".chzn-select").chosen();
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+            //var edit = '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>';
+            var actions = '<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a><a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>';
+            // Append table with add row form on add new button click
+            $(".add-new").click(function () {
+                $(this).attr("disabled", "disabled");
+                var index = $("table tbody tr:last-child").index();
+                var row = '<tr>' +
+                    '<td><input type="text" class="form-control"></td>' +
+                    '<td><input type="text" class="form-control"></td>' +
+                    '<td><input type="text" class="form-control"></td>' +
+                    '<td><input type="text" class="form-control"></td>' +
+                    '<td>' + actions + '</td>' +
+                    '</tr>';
+                $("table").append(row);
+                $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+                $('[data-toggle="tooltip"]').tooltip();
+                $(function () {
+                    //$(".chzn-select").chosen();
+                });
+            });
+            // Add row on add button click
+            $(document).on("click", ".add", function () {
+                var empty = false;
+                var input = $(this).parents("tr").find('input[type="text"]');
+                input.each(function () {
+                    debugger;
+                    if (!$(this).val()) {
+                        $(this).addClass("error");
+                        empty = true;
+                    } else {
+                        $(this).removeClass("error");
+                    }
+                });
+                $(this).parents("tr").find(".error").first().focus();
+                if (empty)
+                    return false;
+                input.each(function () {
+                    $(this).parent("td").html($(this).val());
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").removeAttr("disabled");
+
+            });
+
+            // Edit row on edit button click
+            $(document).on("click", ".edit", function () {
+                $(this).parents("tr").find("td:not(:last-child)").each(function () {
+                    $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").attr("disabled", "disabled");
+            });
+            // Delete row on delete button click
+            $(document).on("click", ".delete", function () {
+                $(this).parents("tr").remove();
+                $(".add-new").removeAttr("disabled");
+            });
+            $.ajax({
+                url: "/Company/GetSupplierContact?id=" + $("#Id").val(),
+                type: 'GET',
+                success: function (response) {
+                    BuildItemDetails(response.rows);
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+
+            function BuildItemDetails(items) {
+                var divstring = '<thead><tr><th>Name</th><th>Number</th><th>Mail</th><th>Notes</th></th><th>Actions</th></tr></thead><tbody>';
+                $("#tblItemDetails").empty();
+                for (var i = 0; i < items.length; i++) {
+                    divstring += '<tr><td>' + items[i].name + '</td><td>' + items[i].number + '</td><td>' + items[i].mail + '</td><td>' + items[i].notes + '</td>'
+                    divstring += '<td><a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>';
+                    divstring += '<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></td></tr>';
+                }
+                divstring += '</tbody>';
+                $("#tblItemDetails").append(divstring);
+            }
+
+        });
+
+
+        $.ajax({
+            url: "/Admin/GetCity",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                $("#CityId").empty();
+                for (var i = 0; i < response.rows.length; i++) {
+                    debugger;
+                    divstring += '<option Value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#CityId").append(divstring);
+                $("#CityId").val('@Model.CityId');
+
+                //$("#CityId").trigger("chosen:updated");
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        $.ajax({
+            url: "/Company/GetCurrency",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                for (var i = 0; i < response.rows.length; i++) {
+                    debugger;
+                    divstring += '<option value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#CurrencyId").append(divstring);
+                $("#CurrencyId").trigger("chosen:updated");
+                $("#CurrencyId").val('@Model.CurrencyId');
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        $.ajax({
+            url: "/Company/GetSupplierCategory",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                $("#categoryId").empty();
+                for (var i = 0; i < response.rows.length; i++) {
+                    debugger;
+                    divstring += '<option Value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#categoryId").append(divstring);
+                $("#categoryId").val('@Model.categoryId');
+
+                //$("#categoryId").trigger("chosen:updated");
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+        $.ajax({
+            url: "/Company/GetSupplierGroup",
+            type: 'GET',
+            success: function (response) {
+                var divstring = '';
+                $("#suppliergroupId").empty();
+                for (var i = 0; i < response.rows.length; i++) {
+                    debugger;
+                    divstring += '<option Value="' + response.rows[i].id + '">' + response.rows[i].name + '</option>';
+                }
+                $("#suppliergroupId").append(divstring);
+                $("#suppliergroupId").val('@Model.suppliergroupId');
+
+                //$("#suppliergroupId").trigger("chosen:updated");
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        function BuildCity(items) {
+
+
+        }
+        $(document).on("click", "#btnSaveOrder", function () {
+            var SupplierContact = [];
+            var Supplier = {
+                code: $('#code').val(),
+                SupplierName: $('#SupplierName').val(),
+                shortname: $('#shortname').val(),
+                SupplierAddress: $('#SupplierAddress').val(),
+                Zipcode: $('#Zipcode').val(),
+                creditlimit: $('#creditlimit').val(),
+                creditdays: $('#creditdays').val(),
+                CityId: $('#CityId').val(),
+                CurrencyId: $('#CurrencyId').val(),
+                categoryId: $('#categoryId').val(),
+                suppliergroupId: $('#suppliergroupId').val(),
+                SupportMail: $('#SupportMail').val(),
+                SupportNo: $('#SupportNo').val(),
+                License: $('#License').val(),
+                StartedIn: $('#StartedIn').val(),
+                TaxNo: $('#TaxNo').val(),
+                Otherreg: $('#Otherreg').val(),
+                Details: $('#Details').val(),
+                Lattitude: $('#Lattitude').val(),  
+                Longitude: $('#Longitude').val(),
+                partnerId: $('#partnerId').val(),
+                Id: $('#Id').val(),
+                dr: $('#dr').val(),
+                cr: $('#cr').val()
+            };
+            debugger;
+
+            $.ajax({
+                url: "/Company/SaveSupplier",
+                type: 'POST',
+                data: { Supplier: Supplier },
+                success: function (response) {
+                    if (response.id > 0) {
+                        var i = 1;
+                        var t = document.getElementById('tblItemDetails');
+                        $("#tblItemDetails tr").each(function () {
+                            debugger;
+                            if ($("#tblItemDetails tr").length > i) {
+                                debugger;
+                                SupplierContact.push({
+                                    SupplierId: response.id,
+                                    name: $(t.rows[i].cells[0]).text(),
+                                    number: $(t.rows[i].cells[1]).text(),
+                                    mail: $(t.rows[i].cells[2]).text(),
+                                    notes: $(t.rows[i].cells[3]).text()
+                                });
+                            }
+                            i++;
+                        });
+                        debugger;
+                        $.ajax({
+                            url: "/Company/SaveSupplierContact",
+                            type: 'POST',
+                            data: { SupplierContact: SupplierContact },
+                            success: function (response) {
+                                window.location.href = '/Company/SupplierListLoad';
+                            },
+                            error: function (xhr) {
+                                alert("Something went wrong, please try again");
+                            }
+                        });
+                    }
+                    //alert(response.id);
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        });
+        //$('.datepicker').datepicker({
+        //    dateFormat: 'dd/mm/yy',
+        //    showAnim: "fold"
+        //})
+    </script>
+</head>
+<body>
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Supplier Registration</h1>
+                    <button type="button" id="btnSaveOrder" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Code</label>
+                        <input asp-for="code" class="form-control" disabled />
+                        @*@Html.TextBoxFor(Model => Model.code, new { @class = "form-control", @required = "required" })*@
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="exampleInputEmail1">Supplier Name</label>
+                        @Html.TextBoxFor(Model => Model.SupplierName, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Short Name</label>
+                        @Html.TextBoxFor(Model => Model.shortname, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Supplier Address</label>
+                        @Html.TextBoxFor(Model => Model.SupplierAddress, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Zip Code</label>
+                        @Html.TextBoxFor(Model => Model.Zipcode, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">City</label>
+                        <select asp-for="CityId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Category</label>
+                        <select asp-for="categoryId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Group</label>
+                        <select asp-for="suppliergroupId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Currency</label>
+                        <select asp-for="CurrencyId" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Credit Limit</label>
+                        @Html.TextBoxFor(Model => Model.creditlimit, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Credit Days</label>
+                        @Html.TextBoxFor(Model => Model.creditdays, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">SupportMail</label>
+                        @Html.TextBoxFor(Model => Model.SupportMail, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">License</label>
+                        @Html.TextBoxFor(Model => Model.License, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">SupportNo</label>
+                        @Html.TextBoxFor(Model => Model.SupportNo, new { @class = "form-control", @required = "required" })
+                    </div>
+
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Started Date</label>
+                        @Html.TextBoxFor(Model => Model.StartedIn, "{0: dd/MM/yyyy}", new { @class = "form-control datepicker", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">TaxNo</label>
+                        @Html.TextBoxFor(Model => Model.TaxNo, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Otherreg</label>
+                        @Html.TextBoxFor(Model => Model.Otherreg, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Opening Balance Dr</label>
+                        @Html.TextBoxFor(Model => Model.dr, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Opening Balance Cr</label>
+                        @Html.TextBoxFor(Model => Model.cr, new { @class = "form-control", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        @Html.TextAreaFor(Model => Model.Details, new { @class = "form-control", @required = "required" })
+
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <div id="floating-panel">
+                            <input id="address" type="text" value="">
+                            <input id="Mapsubmit" type="button" value="GetCurrent">
+                        </div>
+                        <div id="map"></div>
+
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+                @Html.HiddenFor(Model => Model.Lattitude)
+                @Html.HiddenFor(Model => Model.Longitude)
+                @Html.HiddenFor(Model => Model.partnerId)
+
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8"><h2>Supplier <b>Contacts</b></h2></div>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add Contact</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered" id="tblItemDetails"></table>
+    </div>
+</body>
+</html>
+<script>
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        showAnim: "fold"
+    })
+    var map, infoWindow;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: { lat: 24.4644789, lng: 54.3651206 }
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('Mapsubmit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            $("#Lattitude").val(event.latLng.lat());
+            $("#Longitude").val(event.latLng.lng());
+            geocoder.geocode({
+                'latLng': event.latLng
+            }, function (results, status) {
+                if (status ==
+                    google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        $("#SupplierAddress").val(results[1].formatted_address);
+                        alert("Location Picked");
+
+                    } else {
+                        alert('No results found');
+                    }
+                } else {
+                    alert('Geocoder failed due to: ' + status);
+                }
+            });
+        });
+        infoWindow = new google.maps.InfoWindow;
+        function geocodeAddress(geocoder, resultsMap) {
+            debugger;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    debugger;
+                    $("#Lattitude").val(position.coords.latitude);
+                    $("#Longitude").val(position.coords.longitude);
+                    //$("#SupplierAddress").val(position.formatted_address);
+                    alert("Location Picked");
+
+                });
+            }
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    function resizeChosen() {
+        $(".chosen-container").each(function () {
+            $(this).attr('style', 'width: 100%');
+            //$(this).attr('style', 'height: 200%');
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ_WzHFJGtNughETwVqmHBvnl-wKZmFnk&callback=initMap" async defer></script>

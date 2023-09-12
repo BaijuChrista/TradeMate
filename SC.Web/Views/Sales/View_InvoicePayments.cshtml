@@ -1,0 +1,207 @@
+﻿@{
+    ViewData["Title"] = "Customer Payment";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+
+                <div class="col-md-2">
+                    From Date<br /> <input type="text" class="form-control datepicker" id="serfromdate" />
+                </div>
+                <div class="col-md-2">
+                    To Date<br /> <input type="text" class="form-control datepicker" id="sertodate" />
+                </div>
+                <div class="col-md-2">
+                    Status <br />
+                    <select id="serStatus" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top">
+                        <option value="0">Select All</option>
+                        <option value="1">Paid</option>
+                        <option value="2">Deposited</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    Customer <br />
+                    <select id="serCustomer" name="serCustomer" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+               
+                <div class="col-md-2">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnProcess">Deposited</button>
+
+                </div>
+            </div>
+            <div class="x_content">
+                <table id="list-customerpay" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-customerpay').jqGrid({
+        url: '/Sales/GetsalePaymentDetails',
+        datatype: 'json',
+        colNames: ['Id', 'Date', 'Invoice No', 'Customer', 'Collected by', 'RVNo', 'Total', 'Status'],
+        colModel: [
+            { name: 'id', index: 'id', editable: false, width: 100, key: true, hidden: true },
+            { name: 'paiddate', index: 'paiddate', width: 120, editable: false, formatter: 'date', formatoptions: { srcformat: 'Y/m/d', newformat: 'd-M-Y' } },
+            { name: 'sales.invoiceno', index: 'sales.invoiceno', editable: false, width: 200 },
+            { name: 'sales.customer.customerName', index: 'sales.customer.customerName', editable: false, width: 200 },
+            { name: 'applicationUser.username', index: 'applicationUser.username', editable: false, width: 200 },
+            { name: 'details', index: 'details', editable: false, width: 250 },
+            { name: 'amount', index: 'amount', width: 250, editable: false, align: "right", sorttype: "float", formatter: "number" },
+            { name: 'status', formatter: addstatus, width: 100 }
+            //{ name: 'due', index: 'due', width: 250, editable: false, },
+            //{ name: 'balance', index: 'balance', width: 250, editable: false, align: "right", sorttype: "float", formatter: "number" },
+            //{ name: 'amount', index: 'amount', width: 250, align: "right", editoptions: { defaultValue: '0' }, editable: true, sorttype: "float", formatter: "number" }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        subGrid: false,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        onSelectRow: function (id) {
+            jQuery('#list-customerpay').jqGrid('editRow', id, true);
+
+        },
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true,
+        caption: 'List of Payments'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: false },
+    );
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.status == null)
+            return '';
+        switch (rowObject.status) {
+            case 1: return 'Paid';
+            case 2: return 'Deposited';
+        }
+    }
+    $.ajax({
+        url: "/Company/GetCustomer",
+        type: 'GET',
+        success: function (response) {
+            BuildCity(response.rows);
+        },
+        error: function (xhr) {
+            alert("Something went wrong, please try again");
+        }
+    });
+    function BuildCity(items) {
+        var divstring = '<option Value="0">Select All</option>';
+        $("#serCustomer").empty();
+        for (var i = 0; i < items.length; i++) {
+            divstring += '<option Value="' + items[i].id + '">' + items[i].customerName + '</option>';
+        }
+        $("#serCustomer").append(divstring);
+        $("#serCustomer").val(230).trigger("chosen:updated");
+
+    }
+    jQuery("#btnSearch").click(function () {
+        var serfromdate = $("#serfromdate").val();
+        var sertodate = $("#sertodate").val();
+        var serCustomer = $("#serCustomer").val();
+        var serStatus = $("#serStatus").val(); 
+        jQuery("#list-customerpay").jqGrid('setGridParam',
+            {
+                url: "/Sales/GetsalePaymentDetails?serfromdate=" + serfromdate + '&sertodate=' + sertodate + '&serStatus=' + serStatus + '&serCustomer=' + serCustomer
+
+                , page: 1
+            })
+            .trigger("reloadGrid");
+    });
+    function addEditLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="/Purchase/NewOrder?id=' + Id + '"  class="fa fas fa-edit"></a>';
+    }
+    jQuery("#btnProcess").click(function () {
+        debugger;
+        var serDetails = $('#serDetails').val();
+        var grid = $("#list-customerpay");
+        var data = [];
+        var rowKey = grid.getGridParam("selarrrow");
+        if (!rowKey)
+            alert("No rows are selected");
+        else {
+            var selectedIDs = grid.getGridParam("selarrrow");
+            for (var i = 0; i < selectedIDs.length; i++) {
+                data.push(selectedIDs[i])
+            }
+            $.ajax({
+                url: "/Sales/UpdatePaymentDetails",
+                type: 'POST',
+                data: { Ids: data, Details: serDetails },
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        }
+        //alert(rows);
+    });
+
+</script>

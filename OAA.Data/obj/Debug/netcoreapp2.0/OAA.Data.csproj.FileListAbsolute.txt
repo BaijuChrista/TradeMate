@@ -1,0 +1,34 @@
+E:\VS2017\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.deps.json
+E:\VS2017\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.dll
+E:\VS2017\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+E:\VS2017\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.csproj.CoreCompileInputs.cache
+E:\VS2017\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfoInputs.cache
+E:\VS2017\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfo.cs
+E:\VS2017\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.dll
+E:\VS2017\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.pdb
+E:\VS2017\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.csprojResolveAssemblyReference.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.deps.json
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.csprojResolveAssemblyReference.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.csproj.CoreCompileInputs.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfoInputs.cache
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfo.cs
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.dll
+E:\GitSource\ASP.NET-Core-MVC-Example\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.deps.json
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.csproj.CoreCompileInputs.cache
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfoInputs.cache
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfo.cs
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.dll
+C:\Users\r.kumaran\Downloads\ASP.NET-Core-MVC-Example-master\ASP.NET-Core-MVC-Example-master\OnionArchitectureApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.deps.json
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\bin\Debug\netcoreapp2.0\OAA.Data.pdb
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.csproj.CoreCompileInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfoInputs.cache
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.AssemblyInfo.cs
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.dll
+D:\Shopping Cart\ShoppingCartApp\OAA.Data\obj\Debug\netcoreapp2.0\OAA.Data.pdb

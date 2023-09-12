@@ -1,0 +1,117 @@
+﻿
+@model SC.Data.CreditCard
+@{
+    ViewData["Title"] = "New Credit Card Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<style>
+    div button {
+        float: right;
+    }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<link href="~/Table/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Table/css/main.css" rel="stylesheet" />
+<script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+@*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>*@
+<script src="~/js/jquery.validate.js"></script>
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+
+            <form asp-action="SaveCreditCard" class="needs-validation" name="frmSaveCreditCard" id="frmSaveCreditCard" role="form" data-toggle="validator">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Credit Card Registration</h1>
+                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-12">
+                        <label>Code</label>
+                        <input asp-for="code" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="code" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Number</label>
+                        <input asp-for="number" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="number" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Details</label>
+                        <input asp-for="details" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="details" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Bank</label>
+                        <select asp-for="BankId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="BankId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Opening Balance Dr</label>
+                        <input asp-for="dr" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="dr" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Opening Balance Cr</label>
+                        <input asp-for="cr" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="cr" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Category</label>
+                        <select asp-for="categoryId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="categoryId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="Id" />
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">   
+    $(document).ready(function () {
+        debugger;
+        $.ajax({
+            url: '/Company/GetBank',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var divstring = '';
+                $('#BankId').empty();
+                for (var i = 0; i < data.rows.length; i++) {
+                    divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].bankname + '</option>';
+                }
+                $('#BankId').append(divstring);
+                $("#BankId").val('@Model.BankId');
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    });
+     $.ajax({
+
+         url: '/Company/GetCreditCardCategory',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '';
+            $('#categoryId').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#categoryId').append(divstring);
+            $("#categoryId").val('@Model.categoryId');
+        },
+        error: function () {
+            console.log('err')
+        }
+     });
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+</script>
+

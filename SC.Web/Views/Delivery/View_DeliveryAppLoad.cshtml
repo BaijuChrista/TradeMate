@@ -1,0 +1,137 @@
+﻿@{
+    ViewData["Title"] = "Delivery";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+
+                <div class="col-md-3">
+                    Order No <br /><input type="text" class="form-control" id="serRefNo" />
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                </div>
+
+            </div>
+            <div class="x_content">
+                <table id="list-salesorderdelivery" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-salesorderdelivery').jqGrid({
+        url: '/Delivery/GetDeliverItem',
+        datatype: 'json',
+        colNames: ['Id', 'Order No', 'From', 'To', 'Date', 'Amount', 'Details', 'Customer', 'Status',],
+        colModel: [
+            { name: 'id', index: 'id', width: 200, hidden: true },
+            { name: 'orderNo', index: 'salesOrder.refno', width: 200, sorttype: "date" },
+            { name: 'fromAddress', index: 'details', width: 250 },
+            { name: 'toAddress', index: 'details', width: 250 },
+            { name: 'createdDate', index: 'salesdate', width: 120, formatter: 'date', formatoptions: { srcformat: 'Y/m/d', newformat: 'd-M-Y' } },
+            { name: 'amount', index: 'details', width: 250 },
+            { name: 'details', index: 'details', width: 250 },
+            { name: 'userAssigned.username', formatter: addacceptedstatus, width: 200 },
+            { name: 'status', formatter: addstatus, width: 100 }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        viewrecords: true,
+        height: 'auto',
+        width: 'auto',
+        autowidth: true,
+        shrinkToFit: true,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true,
+        caption: 'List of Sales Orders to be Delivered'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: false },
+    );
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.status == null)
+            return '';
+        switch (rowObject.status) {
+            case 1: return 'New Order';
+            case 2: return 'Order Picked Up';
+            case 3: return 'Delivered';
+        }
+    }
+    function addacceptedstatus(cellvalue, options, rowObject) {
+        if (rowObject.userAssigned == null)
+            return 'Unassigned';
+        return
+        rowObject.userAssigned.username
+    }
+    jQuery("#btnSearch").click(function () {
+        var serRefNo = $("#serRefNo").val();
+        jQuery("#list-salesorderdelivery").jqGrid('setGridParam',
+            {
+                url: '/Delivery/GetDeliverItem?orderno=' + serRefNo
+                , page: 1
+            })
+            .trigger("reloadGrid");
+    });
+
+
+
+
+
+</script>

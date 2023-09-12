@@ -1,0 +1,219 @@
+﻿@model SC.Data.SalesOrder
+@{
+    ViewData["Title"] = "Sales Orders";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Order</h1>
+                    <button type="button" id="btnSplit" class="btn btn-primary btn-flat pull-right">Split</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Customer</label>
+                        <select asp-for="CustomerId" class="form-control chzn-select" required></select>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">SupportNo</label>
+                        <input asp-for="refno" class="form-control" disabled />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Credit</label>
+                        <input type="text" class="form-control" id="txtCreditAmount" disabled="disabled" value="0" />
+
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Due Amount</label>
+                        <input type="text" class="form-control amount" id="txtDueAmount" disabled="disabled" value="0" />
+
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="exampleInputEmail1">Oreder Date</label>
+                        @Html.TextBoxFor(Model => Model.orderdate, "{0: dd/MM/yyyy}", new { @class = "form-control datepicker", @required = "required" })
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="exampleInputEmail1">Details</label>
+                        @Html.TextAreaFor(Model => Model.details, new { @class = "form-control", @required = "required" })
+
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Amount</label>
+                        <input type="text" class="form-control amount" id="txtAmount" disabled="disabled" value="0" />
+
+                    </div>
+                    <div class="form-group col-lg-2">
+
+                        <label for="exampleInputEmail1">Discount</label>
+                        <input type="text" asp-for="Discount" class="form-control amount" value="0" />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label for="exampleInputEmail1">Total</label>
+                        <input type="text" asp-for="Total" disabled="disabled" class="form-control amount" />
+
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+
+            </div>
+            <div class="x_content">
+                <table id="list-salesorderprocess" style="color:black !important" class="table table-dark"></table>
+            </div>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $.ajax({
+        url: "/Company/GetCustomer",
+        type: 'GET',
+        success: function (response) {
+            BuildCity(response.rows);
+        },
+        error: function (xhr) {
+            alert("Something went wrong, please try again");
+        }
+    });
+    function BuildCity(items) {
+        var divstring = '<option Value="0">Select Customer</option>';
+        $("#CustomerId").empty();
+        for (var i = 0; i < items.length; i++) {
+            divstring += '<option Value="' + items[i].id + '" data-credit="' + items[i].creditlimit + '" data-due="' + items[i].creditlimit + '">' + items[i].customerName + '</option>';
+        }
+        $("#CustomerId").append(divstring);
+        $("#CustomerId").trigger("chosen:updated");
+
+    }
+    $('#list-salesorderprocess').jqGrid({
+        url: '/Process/GetSalesOrderDetails?SalesOrderId=' + $('#Id').val(),
+        datatype: 'json',
+        colNames: ['Id', 'Sales Id', 'Item Name', 'Order Qty', 'Amount'],
+        colModel: [
+            { name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true },
+            { name: 'salesOrderId', index: 'salesOrderId', editable: false, width: 100, hidden: true },
+            { name: "itemMaster.itemName", index: "itemMaster.itemName", width: 100 },
+            {
+                name: "qty", index: "qty", width: 100, formatter: 'number',
+                summaryTpl: "Total : {0}  ",
+                summaryType: "sum"
+            },
+            {
+                name: "amount", index: "amount", width: 100, formatter: 'number',
+                summaryTpl: "Total : {0}  ",
+                summaryType: "sum"
+            },
+
+
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true,
+        caption: 'List of Sales Orders to be Processed'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true },
+    );
+    jQuery('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    })
+    function addstatus(cellvalue, options, rowObject) {
+        if (rowObject.status == null)
+            return '';
+        switch (rowObject.status) {
+            case 1: return 'New Order';
+            case 2: return 'Order Processed';
+            case 3: return 'Order Picked Up';
+            case 4: return 'Delivered';
+            case 5: return 'Cancelled';
+        }
+    }
+
+
+
+    jQuery("#btnSplit").click(function () {
+        debugger;
+        var OrderId = $("#Id").val();
+        var grid = $("#list-salesorderprocess");
+        var data = [];
+        var rowKey = grid.getGridParam("selarrrow");
+        if (!rowKey)
+            alert("No rows are selected");
+        else {
+            var selectedIDs = grid.getGridParam("selarrrow");
+            for (var i = 0; i < selectedIDs.length; i++) {
+                data.push(selectedIDs[i])
+            }
+            $.ajax({
+                url: "/Process/SplitOrder",
+                type: 'POST',
+                data: { Ids: data, OrderId: OrderId },
+                success: function (response) {
+                    window.location.href = '/Sales/SalesOrderLoad';
+                },
+                error: function (xhr) {
+                    alert("Something went wrong, please try again");
+                }
+            });
+        }
+        //alert(rows);
+    });
+</script>

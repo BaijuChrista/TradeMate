@@ -1,0 +1,234 @@
+﻿
+@model SC.Data.Store
+@{
+    ViewData["Title"] = "New Store Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<style>
+    div button {
+        float: right;
+    }
+</style>
+<style>
+    #map {
+        height: 350px;
+        width: 350px;
+        display: block;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+    }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<link href="~/Table/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Table/css/main.css" rel="stylesheet" />
+<script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+@*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>*@
+<script src="~/js/jquery.validate.js"></script>
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+
+            <form asp-action="SaveStore" class="needs-validation" name="frmSaveStore" id="frmSaveStore" role="form" data-toggle="validator">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Store Registration</h1>
+                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-6">
+                        <label>Code</label>
+                        <input asp-for="code" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="code" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Short Name</label>
+                        <input asp-for="shortname" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="shortname" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Name</label>
+                        <input asp-for="StoreName" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="StoreName" class="text-danger" data-ng-message=""></span>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label>Address</label>
+                        <input asp-for="StoreAddress" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="StoreAddress" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Zip Code</label>
+                        <input asp-for="Zipcode" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="Zipcode" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>City</label>
+                        <select asp-for="CityId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="CityId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label>Company Id</label>
+                        <select asp-for="CompanyId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="CompanyId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Details</label>
+                        <input asp-for="Details" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="Details" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <div id="floating-panel">
+                            <input id="address" type="text" value="">
+                            <input id="Mapsubmit" type="button" value="GetCurrent">
+                        </div>
+                        <div id="map"></div>
+
+                    </div>
+                </div>
+                @Html.HiddenFor(Model => Model.Id)
+                @Html.HiddenFor(Model => Model.Lattitude)
+                @Html.HiddenFor(Model => Model.Longitude)
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function BuildCity(items) {
+        debugger;
+        var divstring = '';
+        $("#CityId").empty();
+        for (var i = 0; i < items.length; i++) {
+            divstring += '<option Value="' + items[i].id + '">' + items[i].name + '</option>';
+        }
+        $("#CityId").append(divstring);
+        $("#CityId").val('@Model.CityId');
+    }
+    function BuildCompany(items) {
+        debugger;
+        var divstring = '';
+        $("#CompanyId").empty();
+        for (var i = 0; i < items.length; i++) {
+            divstring += '<option Value="' + items[i].id + '">' + items[i].companyName + '</option>';
+        }
+        $("#CompanyId").append(divstring);
+        $("#CompanyId").val('@Model.CompanyId');
+
+    }
+    $(document).ready(function () {
+        debugger;
+        $.ajax({
+            url: "/Company/GetCity",
+            type: 'GET',
+            success: function (response) {
+                BuildCity(response.rows);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+        $.ajax({
+            url: "/Admin/GetCompany",
+            type: 'GET',
+            success: function (response) {
+                BuildCompany(response.rows);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+
+    });
+
+
+    var map, infoWindow;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: { lat: 24.4644789, lng: 54.3651206 }
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('Mapsubmit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            $("#Lattitude").val(event.latLng.lat());
+            $("#Longitude").val(event.latLng.lng());
+            geocoder.geocode({
+                'latLng': event.latLng
+            }, function (results, status) {
+                if (status ==
+                    google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        $("#StoreAddress").val(results[1].formatted_address);
+                        alert("Location Picked");
+
+                    } else {
+                        alert('No results found');
+                    }
+                } else {
+                    alert('Geocoder failed due to: ' + status);
+                }
+            });
+        });
+        infoWindow = new google.maps.InfoWindow;
+        function geocodeAddress(geocoder, resultsMap) {
+            debugger;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    debugger;
+                    $("#Lattitude").val(position.coords.latitude);
+                    $("#Longitude").val(position.coords.longitude);
+                    $("#StoreAddress").val(position.formatted_address);
+                    alert("Location Picked");
+
+                });
+            }
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+    function resizeChosen() {
+        $(".chosen-container").each(function () {
+            $(this).attr('style', 'width: 100%');
+            //$(this).attr('style', 'height: 200%');
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZ_WzHFJGtNughETwVqmHBvnl-wKZmFnk&callback=initMap" async defer></script>
+

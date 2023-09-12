@@ -1,0 +1,86 @@
+﻿
+@model SC.Data.Designation
+@{
+    ViewData["Title"] = "New Designation Registration";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<style>
+    div button {
+        float: right;
+    }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<link href="~/Table/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Table/css/main.css" rel="stylesheet" />
+<script src="~/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<link href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+@*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>*@
+<script src="~/js/jquery.validate.js"></script>
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+
+            <form asp-action="SaveDesignation" class="needs-validation" name="frmSaveDesignation" id="frmSaveDesignation" role="form" data-toggle="validator">
+                <div class="box-header with-border">
+                    <h1 class="box-title">New Designation Registration</h1>
+                    <button type="submit" class="btn btn-primary btn-flat pull-right">Save</button>
+                </div>
+                <div class="box-body">
+                    <div class="form-group col-lg-12">
+                        <label>Code</label>
+                        <input asp-for="code" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="code" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Name</label>
+                        <input asp-for="name" class="form-control" data-error="Please enter your name" required="required" />
+                        <span asp-validation-for="name" class="text-danger" data-ng-message=""></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>Designation Category</label>
+                        <select asp-for="DesignationGroupsId" class="form-control select2" required="required"></select>
+                        <span asp-validation-for="DesignationGroupsId" class="text-danger" data-ng-message=""></span>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="Id" />
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function BuildCategory(items) {
+        debugger;
+        var divstring = '';
+        $("#DesignationGroupsId").empty();
+        for (var i = 0; i < items.length; i++) {
+            divstring += '<option Value="' + items[i].id + '">' + items[i].name + '</option>';
+        }
+        $("#DesignationGroupsId").append(divstring);
+        $("#DesignationGroupsId").val('@Model.DesignationGroupsId');
+    }
+    $(document).ready(function () {
+        debugger;
+        $.ajax({
+            url: "/Company/GetDesignationCategory",
+            type: 'GET',
+            success: function (response) {
+                BuildCategory(response.rows);
+            },
+            error: function (xhr) {
+                alert("Something went wrong, please try again");
+            }
+        });
+
+
+    });
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+
+</script>
+

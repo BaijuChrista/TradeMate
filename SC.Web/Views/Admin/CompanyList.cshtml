@@ -1,0 +1,113 @@
+﻿@{
+	ViewData["Title"] = "Company List";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+	<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+	<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-3">
+                    Company Name <br /><input type="text" class="form-control"  id="serName" />
+                </div>
+                <div class="col-md-3">
+                    City <br /><input type="text" class="form-control"  id="serCity" />
+                </div>
+                <div class="col-md-3">
+                    License <br /><input type="text" class="form-control"  id="serLicense" />
+                </div>
+                <div class="col-md-3">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" onclick="location.href='@Url.Action("NewCompany", "Admin")'">New</button>
+                </div>
+            </div>
+			<div class="box-body">
+				<table id="list-company" style="color:black !important" class="table table-dark"></table>
+				<div id="pager"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    $('#list-company').jqGrid({
+        url: '/Admin/GetCompany',
+		datatype: 'json',
+		colNames: ['Id', 'Name', 'Short Name','Address','Zip Code','City','License','Location','Modify'],
+		colModel: [
+			{
+				name: 'id', index: 'Id', editable: false, width: 100, key: true,hidden: true },
+            { name: 'companyName', index: 'companyName', editable: true, width: 240, editrules: { required: true } },
+            { name: 'shortname', index: 'shortname',edittype: 'textarea', editable: true, width: 300, editrules: { required: false } },
+            { name: 'companyAddress', index: 'companyAddress', editable: false, width: 240},
+            { name: 'zipcode', index: 'zipcode', editable: false, width: 240},
+            { name: 'city.name', index: 'city.name', editable: false, width: 240 },
+            { name: 'license', index: 'license', editable: false, width: 240 },
+            { name: 'customLocation', width: 60, formatter: getLocation },
+            { name: 'customColumns', width: 60, formatter: addEditLink }   
+
+		],
+		jsonReader: {
+			root: "rows",
+			page: "page",
+			total: "total",
+			records: "records",
+			repeatitems: false,
+			id: "0"  },
+		 rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        rownumbers: true,
+        scroll: 1,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+		caption: 'List of Companies'
+	}).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true  },);
+	jQuery("#btnSearch").click(function () {
+        var serName = $("#serName").val();   
+        var serCity = $("#serCity").val(); 
+        var serLicense = $("#serLicense").val(); 
+        jQuery("#list-company").jqGrid('setGridParam',
+            { url: "/Admin/SearchCompany?serName=" + serName + '&serCity=' + serCity + '&serLicense=' + serLicense, page: 1 })
+            .trigger("reloadGrid");
+    });
+    function getLocation(cellvalue, options, rowObject) {
+        debugger;
+        if (rowObject.lattitude == null || rowObject.lattitude.trim() === "") {
+            return '<a href="#" class="fa fas fa-map" style="color:red"></a>';
+        }
+        return '<a href="#" class="fa fas fa-map" style="color:green"></a>';        
+    }
+    function addEditLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="/Admin/NewCompany?id=' + Id + '"  class="fa fas fa-edit"></a>';
+    }
+</script>

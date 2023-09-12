@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "No Stock Items";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>This Month Orders</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>This month Profit</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>Last Month Orders</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <p>Last month Profit</p>
+                <h3>150</h3>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>150</h3>
+                <p>New Orders</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+<script>
+    
+    $.ajax({
+
+        url: '/Report/GetsaleDepositDetails',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            $('.row').empty();
+            var divstring = '';
+            for (var i = 0; i < data.length; i++) {
+                divstring += '<div class="col-lg-3 col-6"><div class="small-box bg-info"><div class="inner"><p>' + data[i].name + '</p><p>' + data[i].details+'</p><h3>' + data[i].total + '</h3></div></div></div>';
+            }
+            $('.row').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    function Updatevisited(id) {
+        $.ajax({
+
+            url: '/Report/UpdateVisited?Id=' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                window.location = '/Report/Sheduler';
+            },
+            error: function () {
+                console.log('err')
+            }
+        });
+    }
+</script>

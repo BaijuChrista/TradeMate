@@ -1,0 +1,224 @@
+﻿@{
+    ViewData["Title"] = "Ledger Summary";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    jQuery.browser = {};
+    (function () {
+        jQuery.browser.msie = false;
+        jQuery.browser.version = 0;
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            jQuery.browser.msie = true;
+            jQuery.browser.version = RegExp.$1;
+        }
+    })();
+
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/css/Custom.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-4">
+                    Ledger Name <br /><input type="text" class="form-control"  id="serName" />
+                </div>
+                <div class="col-md-3">
+                    Account Type<br />
+                    <select id="serCategory" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Designation"></select>
+                </div>
+                <div class="col-md-4">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>                    
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="list-ledgersummary" style="color:black !important" class="table table-dark"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-ledgersummary').jqGrid({
+        url: '/Report/GetLedger',
+        datatype: 'json',
+        colNames: ['Id','Ledger', 'Details', 'Account Name'],
+        colModel: [
+            { name: 'id', index: 'Id', editable: false, width: 100, key: true, hidden: true },
+            { name: 'name', index: 'name', editable: true, width: 240, editrules: { required: true } },
+            { name: 'details', index: 'details', editable: true, width: 240, editrules: { required: true } },
+            { name: 'coa.name', index: 'coa.name', editable: true, width: 240, editrules: { required: true } }
+        ],
+        jsonReader: {
+            root: "rows",
+            page: "page",
+            total: "totalPages",
+            records: "records",
+            repeatitems: false,
+            id: "0"
+        },
+        subGrid: true,
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        subGridOptions: {
+            "plusicon": "ui-icon-triangle-1-e",
+            "minusicon": "ui-icon-triangle-1-s",
+            "openicon": "ui-icon-arrowreturn-1-e",
+            //expand all rows on load
+            "expandOnLoad": true
+        },
+        subGridRowExpanded: function (subgrid_id, row_id) {
+            debugger;
+            var subgrid_table_id, pager_id;
+            subgrid_table_id = subgrid_id + "_t";
+            pager_id = "p_" + subgrid_table_id;
+            $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+            jQuery("#" + subgrid_table_id).jqGrid({
+                url: "/Report/GetLedgerDetails?q=2&LedgerId=" + row_id,
+                datatype: 'json',
+                colNames: ['Id', 'Ledger Id', 'Dr','Cr','Difference'],
+                colModel: [
+                    { name: 'id', index: 'id', editable: false, width: 100, key: true, hidden: true },
+                    { name: 'ledgerId', index: 'ledgerId', editable: false, width: 100, key: true, hidden: true },                   
+                    {
+                        name: "dr", index: "dr", width: 100, formatter: 'number',
+                        summaryTpl: "Total Dr: {0}  ",
+                        summaryType: "sum"
+                    },
+                    {
+                        name: "cr", index: "cr", width: 60, formatter: 'number',
+                        summaryTpl: "Total Cr: {0}  ",
+                        summaryType: "sum"  },
+                    {
+                        name: "details", index: "details", width: 60, summaryTpl: "Total: {0}  ",
+                        summaryType: getTotal  }
+
+
+                ],
+                jsonReader: {
+                    root: "rows",
+                    page: "page",
+                    total: "totalPages",
+                    records: "records",
+                    repeatitems: false,
+                    id: "0"
+                },
+                //  pager: pager_id,
+                rowNum: 250,
+                rowList: [250, 500, 1000],
+                pager: '#pager',
+                sortname: 'code',
+                sortorder: 'asc',
+                //multiselect: true,
+                viewrecords: true,
+                height: '100%',
+                width: '100%',
+                sortorder: 'asc',
+                loadonce: false,
+                autowidth: true,
+                shrinkToFit: true,
+                scrollOffset: 0,
+                emptyrecords: 'No records',
+                autoencode: true,
+                gridview: true,
+                grouping: true,
+                groupingView: {
+                    groupField: ["ledgerId"],
+                    groupColumnShow: [false],
+                    groupText: ["<b></b>"],
+                    groupOrder: ["asc"],
+                    groupSummary: [true],
+                    groupCollapse: false
+
+                },
+                idPrefix: subgrid_table_id + "_"
+            });
+            jQuery("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, { edit: false, add: false, del: false })
+        },
+        subGridRowColapsed: function (subgrid_id, row_id) {
+            // this function is called before removing the data
+            //var subgrid_table_id;
+            //subgrid_table_id = subgrid_id+"_t";
+            //jQuery("#"+subgrid_table_id).remove();
+        },
+        rowNum: 250,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+        grouping: true,
+        caption: 'Ledger Summary'
+    }).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true },
+    );
+
+    jQuery("#btnSearch").click(function () {
+        var serName = $("#serName").val();
+        var serCategory = $("#serCategory").val();
+        jQuery("#list-ledgersummary").jqGrid('setGridParam',
+            { url: "/Company/SearchLedger?serName=" + serName + '&serCategory=' + serCategory, page: 1 })
+            .trigger("reloadGrid");
+    });
+    $.ajax({
+
+        url: '/Company/GetCOAType',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serCategory').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCategory').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    function getTotal(cellvalue, options, rowObject) {
+        debugger;
+        var value = 0;
+        if (cellvalue != "") {
+            value = parseInt(cellvalue);
+        }
+        return value + (rowObject.dr - rowObject.cr);
+
+    }
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+</script>

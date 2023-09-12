@@ -1,0 +1,62 @@
+USE [TradeMate]
+GO
+/****** Object:  Trigger [dbo].[TradeMate_InsertPurchaseLedger]    Script Date: 11/4/2019 5:22:06 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:           <Author,,Baiju>
+-- Create date: <Create Date,,>
+-- Description:      <Description,,>
+-- =============================================
+ALTER TRIGGER [dbo].[TradeMate_InsertPurchaseLedger] 
+   ON  [dbo].[Purchase]
+   AFTER INSERT
+AS 
+BEGIN
+update [TradeMate].[dbo].[Purchase] set refno= 'PI'+cc.code+'/'+ convert(char(4), i.orderdate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4)
+from inserted i 
+join [TradeMate].[dbo].[Purchase] so on i.id=so.Id
+join Supplier cc on cc.Id=i.SupplierId
+       -- SET NOCOUNT ON added to prevent extra result sets from
+       -- interfering with SELECT statements.
+       SET NOCOUNT ON;
+insert into [dbo].[ledgertxn]
+      ([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+select i.CreatedUserId,i.ModifiedUserId,i.CreatedDate,i.ModifiedDate,i.IpAddress,1,14,orderdate,i.Total,0,i.details,
+su.code+'/'+ convert(char(4), i.orderdate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4) 
+from inserted i
+join Supplier su on su.id=i.SupplierId
+
+insert into [dbo].[ledgertxn]
+      ([CreatedUserId]
+      ,[ModifiedUserId]
+      ,[CreatedDate]
+      ,[ModifiedDate]
+      ,[IpAddress]
+      ,[Status]
+      ,[ledgerId]
+      ,[txndate]
+      ,[dr]
+      ,[cr]
+      ,[details]
+      ,[txnno])
+select i.CreatedUserId,i.ModifiedUserId,i.CreatedDate,i.ModifiedDate,i.IpAddress,1,case when i.Type=1 then 21 else le.Id end,i.orderdate,0,i.Total,i.details,
+su.code+'/'+ convert(char(4), i.orderdate, 12)+RIGHT('0000'+CAST(i.Id AS VARCHAR(4)),4) 
+from inserted i
+join Supplier su on su.id=i.SupplierId
+join partner pa on pa.Id=su.partnerId
+join ledger le on le.partnerId=pa.Id
+END

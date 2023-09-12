@@ -1,0 +1,184 @@
+﻿@{
+    ViewData["Title"] = "Supplier List";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	jQuery.browser = {};
+	(function () {
+		jQuery.browser.msie = false;
+		jQuery.browser.version = 0;
+		if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+			jQuery.browser.msie = true;
+			jQuery.browser.version = RegExp.$1;
+		}
+	})();
+</script>
+<script src="~/js/grid.locale-en.js"></script>
+<script src="~/js/jquery.jqGrid.min.js"></script>
+@*<link href="~/css/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap4.css" rel="stylesheet" />
+    <link href="~/css/ui.jqgrid-bootstrap-ui.css" rel="stylesheet" />*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="~/css/ui.jqgrid.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <div class="col-md-2">
+                    Supplier Code <br /><input type="text" class="form-control"  id="serCode" />
+                </div>
+                <div class="col-md-2">
+                    Supplier Name <br /><input type="text" class="form-control"  id="serName" />
+                </div>
+                <div class="col-md-2">
+                    Supplier City <br />
+                    <select id="serCity" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Supplier Category <br />
+                    <select id="serCategory" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    Supplier Group <br />
+                    <select id="serGroup" name="status" class="form-control select2" data-toggle="tooltip" data-trigger="hover" data-placement="top" data-title="Department"></select>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" onclick="location.href='@Url.Action("NewSupplier", "Company")'">New</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnExport">Export</button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px !important; padding: 3px 10px;" id="btnSearch">Search</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table id="list-supplier" style="color:black !important" class="table table-dark"></table>
+                <div id="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#list-supplier').jqGrid({
+        url: '/Company/GetSupplier',
+		datatype: 'json',
+        colNames: ['Id','Code', 'Name', 'Short Name', 'Address', 'Zip', 'City', 'Mail', 'Contact#', 'Category','Group','Location','Modify'],
+		colModel: [
+			{ name: 'id', index: 'Id', editable: false, width: 100, key: true,hidden: true },
+            { name: 'code', index: 'code', editable: false, width: 150 },
+            { name: 'supplierName', index: 'supplierName', editable: false, width: 150 },
+            { name: 'shortname', index: 'shortname', editable: false, width: 100 },
+            { name: 'supplierAddress', index: 'supplierAddress', editable: false, width: 200 },
+            { name: 'zipcode', index: 'zipcode', editable: false, width: 100 },
+            { name: 'city.name', index: 'city.name', editable: false, width: 100 },
+            { name: 'supportMail', index: 'supportMail', editable: false, width: 100 },
+            { name: 'supportNo', index: 'supportNo', editable: false, width: 100 },
+            { name: 'suppliercategory.name', index: 'suppliercategory.name', editable: false, width: 100 },  
+            { name: 'suppliergroup.name', index: 'suppliergroup.name', editable: false, width: 100 },
+            { name: 'customLocation', width: 60, formatter: getLocation },        
+            { name: 'customColumns', width: 60, formatter: addEditLink }                                 
+		],
+		jsonReader: {
+			root: "rows",
+			page: "page",
+			total: "total",
+			records: "records",
+			repeatitems: false,
+			id: "0"  },
+        rowNum: 250,
+        rownumbers: true,
+        rowList: [250, 500, 1000],
+        pager: '#pager',
+        sortname: 'code',
+        sortorder: 'asc',
+        //multiselect: true,
+        viewrecords: true,
+        height: '100%',
+        width: '100%',
+        sortorder: 'asc',
+        loadonce: false,
+        autowidth: true,
+        shrinkToFit: true,
+        scrollOffset: 0,
+        emptyrecords: 'No records',
+		caption: 'List of Suppliers'
+	}).navGrid('#pager', { edit: false, add: false, del: false, search: false, refresh: false, closeAfterSearch: true  });
+    $.ajax({
+
+        url: '/Company/GetSupplierCategory',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serCategory').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCategory').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetSupplierGroup',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serGroup').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serGroup').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    $.ajax({
+
+        url: '/Company/GetCity',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var divstring = '<option Value="0">SelectAll</option>';
+            $('#serCity').empty();
+            for (var i = 0; i < data.rows.length; i++) {
+                divstring += '<option Value="' + data.rows[i].id + '">' + data.rows[i].name + '</option>';
+            }
+            $('#serCity').append(divstring);
+        },
+        error: function () {
+            console.log('err')
+        }
+    });
+    jQuery("#btnSearch").click(function () {
+
+        var serCode = $("#serCode").val();
+        var serName = $("#serName").val();
+        var serCity = $("#serCity").val();
+        var serCategory = $("#serCategory").val();
+        var serGroup = $("#serGroup").val();
+        jQuery("#list-supplier").jqGrid('setGridParam',
+            { url: "/Company/SearchSupplier?serCode=" + serCode + '&serName=' + serName + '&serCity=' + serCity + '&serCategory=' + serCategory + '&serGroup=' + serGroup, page: 1 })
+            .trigger("reloadGrid");
+    });
+    function addEditLink(cellvalue, options, rowObject) {
+        var Id = rowObject.id;
+        return '<a href="/Company/NewSupplier?id=' + Id + '"  class="fa fas fa-edit"></a>';
+    }
+    function getLocation(cellvalue, options, rowObject) {
+        debugger;
+        if (rowObject.lattitude == null || rowObject.lattitude.trim() === "") {
+            return '<a href="#" class="fa fas fa-map" style="color:red"></a>';
+        }
+        return '<a href="#" class="fa fas fa-map" style="color:green"></a>';
+        //return '<div><i class="fa fas fa-map-marked"></i></div>';
+    }
+    $(document).ready(function () {
+        jQuery('.select2').select2()
+    });
+
+</script>
